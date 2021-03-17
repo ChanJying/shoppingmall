@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>会员注册</title>
-    <script type="text/javascript" th:src="@{/js/jquery-3.6.0.min.js}"></script>
+
     <link rel="stylesheet"th:href="@{/layui/css/layui.css}">
     <link rel="stylesheet" th:href="@{/css/login.css}">
 </head>
@@ -13,14 +13,15 @@
     <div class="logoHead">
     </div>
 
-        <form>
+        <form namr="registerForm" id="registerForm" method="post">
             <div class="usernameWrapDiv">
                 <div class="usernameLabel">
                     <label>用户名:</label>
                 </div>
                 <div class="usernameDiv">
                     <i class="layui-icon layui-icon-username adminIcon"></i>
-                    <input id="registerUsername" class="layui-input adminInput" type="text" name="username" placeholder="输入用户名" >
+                    <input id="account" class="layui-input adminInput" type="text" name="account" placeholder="输入手机号" >
+                    <span class="error_tip"></span>
                 </div>
             </div>
             <div class="usernameWrapDiv">
@@ -29,8 +30,10 @@
                 </div>
                 <div class="passwordDiv">
                     <i class="layui-icon layui-icon-password adminIcon"></i>
-                    <input id="registerPassword" class="layui-input adminInput" type="password" name="password" placeholder="输入密码">
+                    <input id="password" class="layui-input adminInput"  type="password" name="password" placeholder="输入密码">
+                    <span class="error_tip"></span>
                 </div>
+
             </div>
             <div class="usernameWrapDiv">
                 <div class="usernameLabel" style="width: 80px">
@@ -38,7 +41,8 @@
                 </div>
                 <div class="passwordDiv">
                     <i class="layui-icon layui-icon-password adminIcon"></i>
-                    <input id="registerWellPassword" class="layui-input adminInput" type="password" name="password" placeholder="输入密码">
+                    <input id="registerWellPassword" class="layui-input adminInput"  type="password" name="registerWellPassword" placeholder="输入密码">
+                    <span class="error_tip"></span>
                 </div>
             </div>
             <div class="usernameWrapDiv">
@@ -46,7 +50,7 @@
                     <label>已账号？<a th:href="@{/login}" id="loginRegister">点击登录</a></label>
                 </div>
                 <div class="submitDiv">
-                    <input id="loginBtn" type="button" class="submit layui-btn layui-btn-primary" value="注册"></input>
+                    <input id="registerBtn" type="button" class="submit layui-btn layui-btn-primary"  onclick="register()"  value="注册">
                 </div>
             </div>
 
@@ -54,5 +58,140 @@
 
 </div>
 </div>
+<script type="text/javascript" th:src="@{/js/jquery-3.6.0.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/common/md5.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/common/common.js}"></script>
+<script type="text/javascript" th:src="@{/js/layer/layer.js}"></script>
+
+
+
+<script >
+    var flagUser=false;
+    var flagPwd=false;
+    var flagCpwd=false;
+$(function () {
+
+
+    var $user_name = $('#account');
+    var $pwd=$('#password');
+    var $cpwd=$('#registerWellPassword');
+
+    $user_name.blur(function () {
+        // 封装函数 调用函数
+        fnCheckUser(flagUser,$user_name);
+    });
+    function fnCheckUser() {
+        // 获取用户输入的数据
+        var vals = $user_name.val()
+        // 正则，正则验证用户输入的数据是否合法
+        var re = /^1[0-9]{10}$/;
+
+        if (vals == '') {
+            $user_name.next().show().html('手机号不能为空')
+            flagUser=false
+            return
+        }
+        if (re.test(vals)) {
+            // 合法 -- 隐藏报错信息
+            $user_name.next().hide()
+            flagUser=true
+        } else {
+            $user_name.next().show().html('手机号格式不正确');
+            flagUser=false
+        }
+    }
+    $pwd.blur(function(){
+        // 封装函数，调用函数
+        fnCheckPwd()
+    });
+    function fnCheckPwd(){
+        // 获取密码框输入的数据
+        var vals=$pwd.val();
+        // 密码正则匹配表达式
+        var rePass = /^[a-zA-Z0-9]{6,12}$/;
+        // 如果输入框为空，则提示不能为空并return
+        if (vals==''){
+            $pwd.next().show().html('密码不能为空');
+            flagPwd=false;
+            return
+        }
+        // 正则验证密码输入是否合法
+        if(rePass.test(vals))
+        {
+            // 如果匹配成功，则隐藏span标签
+            $pwd.next().hide();
+            flagPwd=true
+        }
+        else
+        {
+            // 如果匹配失败，则显示span标签，替换提示信息
+            $pwd.next().show().html('密码是6到12位数字或字母');
+            flagPwd=false
+        }
+    }
+
+    $cpwd.blur(function(){
+        // 封装函数，调用函数
+        fnCheckCpwd()
+    })
+    function fnCheckCpwd(){
+        // 获取重复密码框输入的数据
+        var vals=$pwd.val();
+        var cvals=$cpwd.val();
+        if(cvals==''){
+            $cpwd.next().show().html('重复密码框不能为空');
+            flagCpwd=false;
+            return;
+        }
+        if (vals==cvals){
+            $cpwd.next().hide();
+            flagCpwd=true;
+        }
+        else{
+            $cpwd.next().show().html('两次密码输入不一致，请重新输入');
+            flagCpwd=false;
+            return;
+        }
+    }
+
+})
+
+function register() {
+    if(flagUser && flagPwd && flagCpwd){
+        doRegister();
+    }
+}
+
+function doRegister() {
+    g_showLoading();
+    var account = $("#account").val();
+    var inputPass = $("#password").val();
+    var salt = g_passsword_salt;
+    var str= ""+salt.charAt(0)+salt.charAt(2)+inputPass+salt.charAt(5)+salt.charAt(4);
+    var password = md5(str);
+    $.ajax({
+        url:"/doRegister",
+        type:"POST",
+        data:{
+            account:account,
+            password:password
+        },
+        success:function (data) {
+            layer.closeAll();
+            if(true){
+                layer.msg("成功");
+                window.location.href= "/login"
+            }else {
+                layer.msg("失败")
+            }
+        },
+        error:function () {
+            layer.closeAll();
+        }
+
+    })
+}
+
+</script>
 </body>
 </html>

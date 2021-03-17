@@ -1,13 +1,13 @@
 package chanjy.controller;
 
+import chanjy.common.VerifyCode;
 import chanjy.service.LoginService;
+import chanjy.vo.LoginVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
@@ -19,8 +19,10 @@ import java.io.OutputStream;
 public class LoginController {
 
     @Autowired
-    LoginService loginService;
+    private LoginService loginService;
 
+    @Autowired
+    private VerifyCode verifyCode;
 
     @RequestMapping("/login")
     public String login(){
@@ -33,11 +35,18 @@ public class LoginController {
     }
 
 
+    @PostMapping("/doRegister")
+    @ResponseBody
+    public void doRegister(LoginVo loginVo){
+        loginService.register(loginVo);
+    }
+
+
 
     @GetMapping("/verifyCode")
     @ResponseBody
     public void getVerifyCode(HttpServletResponse response, @RequestParam("uuid")String uuid){
-        BufferedImage image = loginService.createVerifyCode(uuid);
+        BufferedImage image = verifyCode.createVerifyCode(uuid);
         try{
             OutputStream outputStream = response.getOutputStream();
             ImageIO.write(image,"JPEG",outputStream);
