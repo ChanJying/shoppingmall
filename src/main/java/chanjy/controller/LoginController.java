@@ -1,6 +1,7 @@
 package chanjy.controller;
 
 import chanjy.common.VerifyCode;
+import chanjy.result.Result;
 import chanjy.service.LoginService;
 import chanjy.vo.LoginVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,16 +30,28 @@ public class LoginController {
         return "login";
     }
 
+    @RequestMapping("/index")
+    public String index(){
+        return "index";
+    }
+
     @RequestMapping("/register")
     public String register(){
         return "register";
     }
 
+    @PostMapping("/doLogin")
+    @ResponseBody
+    public Result<Boolean> doLogin(HttpServletResponse response,LoginVo loginVo,@RequestParam("uuid")String uuid){
+        loginService.login(response,loginVo,uuid);
+        return Result.success(true);
+    }
 
     @PostMapping("/doRegister")
     @ResponseBody
-    public void doRegister(LoginVo loginVo){
-        loginService.register(loginVo);
+    public Result<Boolean> doRegister(LoginVo loginVo){
+       loginService.register(loginVo);
+       return Result.success(true);
     }
 
 

@@ -1,7 +1,6 @@
 package chanjy.pojo;
 
 import com.baomidou.mybatisplus.annotation.*;
-import org.springframework.data.annotation.CreatedDate;
 
 import java.util.Date;
 
@@ -18,26 +17,29 @@ public class Customer {
     private Date registerDate;
     @TableField("img")
     private String img;
-    @TableField(fill = FieldFill.INSERT)
-    private Date createTime;
-    @TableField(fill = FieldFill.INSERT_UPDATE)
-    private Date updateTime;
-    @TableLogic
-    private Integer deleted;
+    @TableField("username")
+    private String username;
+
 
     public Customer() {
     }
 
-    public Customer(int id, String account, String password, String salt, Date registerDate, String img, Date createTime, Date updateTime, Integer deleted) {
+    public Customer(int id, String account, String password, String salt, Date registerDate, String img, String username) {
         this.id = id;
         this.account = account;
         this.password = password;
         this.salt = salt;
         this.registerDate = registerDate;
         this.img = img;
-        this.createTime = createTime;
-        this.updateTime = updateTime;
-        this.deleted = deleted;
+        this.username = username;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public int getId() {
@@ -88,27 +90,5 @@ public class Customer {
         this.img = img;
     }
 
-    public Date getCreateTime() {
-        return createTime;
-    }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public Integer getDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(Integer deleted) {
-        this.deleted = deleted;
-    }
 }

@@ -10,17 +10,27 @@
 <body>
 <div class="wrap">
 <div class="loginForm">
-    <div class="logoHead">
+    <div class="logoHead" style="height: 0px">
     </div>
 
         <form namr="registerForm" id="registerForm" method="post">
+            <div class="usernameWrapDiv">
+                <div class="usernameLabel">
+                    <label>账号:</label>
+                </div>
+                <div class="usernameDiv">
+                    <i class="layui-icon layui-icon-username adminIcon"></i>
+                    <input id="account" class="layui-input adminInput" type="text" name="account" placeholder="输入手机号" >
+                    <span class="error_tip"></span>
+                </div>
+            </div>
             <div class="usernameWrapDiv">
                 <div class="usernameLabel">
                     <label>用户名:</label>
                 </div>
                 <div class="usernameDiv">
                     <i class="layui-icon layui-icon-username adminIcon"></i>
-                    <input id="account" class="layui-input adminInput" type="text" name="account" placeholder="输入手机号" >
+                    <input id="username" class="layui-input adminInput" type="text" name="username" placeholder="输入用户名" >
                     <span class="error_tip"></span>
                 </div>
             </div>
@@ -66,38 +76,61 @@
 
 
 <script >
-    var flagUser=false;
+    var flagAccount=false;
+    var flagName=false;
     var flagPwd=false;
     var flagCpwd=false;
 $(function () {
 
 
-    var $user_name = $('#account');
+    var $account = $('#account');
     var $pwd=$('#password');
     var $cpwd=$('#registerWellPassword');
+    var $username=$('#username');
 
-    $user_name.blur(function () {
+    $account.blur(function () {
         // 封装函数 调用函数
-        fnCheckUser(flagUser,$user_name);
+        fnCheckAccount();
     });
-    function fnCheckUser() {
+    function fnCheckAccount() {
         // 获取用户输入的数据
-        var vals = $user_name.val()
+        var vals = $account.val();
         // 正则，正则验证用户输入的数据是否合法
         var re = /^1[0-9]{10}$/;
 
         if (vals == '') {
-            $user_name.next().show().html('手机号不能为空')
-            flagUser=false
+            $account.next().show().html('手机号不能为空')
+            flagAccount=false
             return
         }
         if (re.test(vals)) {
             // 合法 -- 隐藏报错信息
-            $user_name.next().hide()
-            flagUser=true
+            $account.next().hide()
+            flagAccount=true
         } else {
-            $user_name.next().show().html('手机号格式不正确');
-            flagUser=false
+            $account.next().show().html('手机号格式不正确');
+            flagAccount=false
+        }
+    }
+    $username.blur(function () {
+        // 封装函数 调用函数
+        fnCheckUser();
+    });
+    function fnCheckUser(){
+        var vals = $username.val();
+        var re = /^[a-zA-Z0-9_-]{4,16}$/;
+        if (vals == '') {
+            $username.next().show().html('用户名不能为空')
+            flagName=false;
+            return
+        }
+        if (re.test(vals)) {
+            // 合法 -- 隐藏报错信息
+            $username.next().hide();
+            flagName=true;
+        } else {
+            $username.next().show().html('用户名格式不正确');
+            flagName=false;
         }
     }
     $pwd.blur(function(){
@@ -157,7 +190,7 @@ $(function () {
 })
 
 function register() {
-    if(flagUser && flagPwd && flagCpwd){
+    if(flagAccount && flagPwd && flagCpwd){
         doRegister();
     }
 }
@@ -166,6 +199,7 @@ function doRegister() {
     g_showLoading();
     var account = $("#account").val();
     var inputPass = $("#password").val();
+    var username = $("#username").val();
     var salt = g_passsword_salt;
     var str= ""+salt.charAt(0)+salt.charAt(2)+inputPass+salt.charAt(5)+salt.charAt(4);
     var password = md5(str);
@@ -174,15 +208,16 @@ function doRegister() {
         type:"POST",
         data:{
             account:account,
-            password:password
+            password:password,
+            username:username
         },
         success:function (data) {
             layer.closeAll();
-            if(true){
+            if(data.code==0){
                 layer.msg("成功");
-                window.location.href= "/login"
+                window.location.href= "/login";
             }else {
-                layer.msg("失败")
+                layer.msg(data.msg);
             }
         },
         error:function () {
