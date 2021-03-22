@@ -13,8 +13,10 @@ import chanjy.util.UUIDUtil;
 import chanjy.vo.LoginVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
@@ -50,21 +52,43 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
-    public boolean login(HttpServletResponse response,LoginVo loginVo, String uuid) {
+    public boolean login(HttpServletRequest request,HttpServletResponse response, LoginVo loginVo, String uuid) {
         if(loginVo==null) throw new GlobalException(CodeMsg.SERVER_ERROR);
         //验证码比较
         String redisCode = redisService.get(uuid);
         if(!redisCode.equals(loginVo.getVerifyCode())) throw new GlobalException(CodeMsg.VERIFYCODE_ERROR);
         //用户查询是否存在
+        String cookieToken = getCookieValue(request,COOKIE_NAME_TOKEN);
+        if(!StringUtils.isEmpty(cookieToken)){
+            if(redisService.exists(CustomerKey.token,cookieToken)) {
+                return true;
+            }else {
+                getByAccount(response,loginVo);
+            }
+        }else {
+            getByAccount(response,loginVo);
+            return true;
+        }
+        return false;
+    }
+
+    public Customer getByToken(HttpServletResponse response,String token){
+        if(StringUtils.isEmpty(token)) return null;
+        Customer customer = redisService.get(CustomerKey.token,token,Customer.class);
+        if(customer!=null){
+            addCookie(response,token,customer);
+        }
+        return customer;
+    }
+    private void getByAccount(HttpServletResponse response,LoginVo loginVo){
         Customer customer = customerMapper.queryCustomerByAccount(loginVo.getAccount());
         if(customer==null) throw new GlobalException(CodeMsg.ACCOUNT_NOT_EXIST);
         //密码校验
         String DBPass = MD5Util.formPassToDBPass(loginVo.getPassword(),customer.getSalt());
         if(!DBPass.equals(customer.getPassword())) throw new GlobalException(CodeMsg.PASSWORD_MISTAKE);
 
-        String token = UUIDUtil.uuid();
+        String token = UUIDUtil. uuid();
         addCookie(response,token,customer);
-        return true;
     }
 
     private void addCookie(HttpServletResponse response,String token,Customer customer){
@@ -73,6 +97,19 @@ public class LoginServiceImpl implements LoginService {
         cookie.setMaxAge(CustomerKey.token.expireSeconds());
         cookie.setPath("/");
         response.addCookie(cookie);
+    }
+
+    public String getCookieValue(HttpServletRequest request, String cookieName) {
+        Cookie[]  cookies = request.getCookies();
+        if(cookies == null || cookies.length <= 0){
+            return null;
+        }
+        for(Cookie cookie : cookies) {
+            if(cookie.getName().equals(cookieName)) {
+                return cookie.getValue();
+            }
+        }
+        return null;
     }
 
 
