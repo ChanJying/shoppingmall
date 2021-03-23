@@ -8,78 +8,20 @@
 	<body>
 	<!-- start header -->
 		<header>
-			<div class="top center">
-				<div class="left fl">
-					<ul>
-						<li><a href="http://www.mi.com/" target="_blank">乐购商城</a></li>
-						<div class="clear"></div>
-					</ul>
-				</div>
-				<div class="right fr">
-					<div class="gouwuche fr"><a href="">购物车</a></div>
-					<div class="fr">
-						<ul>
-							<div th:if="${customer eq null}">
-								<li><a th:href="@{/login}"  >登录</a></li>
-								<li>|</li>
-								<li><a  th:href="@{/register}"  >注册</a></li>
-							</div>
-							<div th:unless="${customer eq null}" >
-								<li><a th:href="@{/customerInfo}" th:text="${customer.getUsername()}" ></a></li>
-							</div>
-						</ul>
-					</div>
-					<div class="clear"></div>
-				</div>
-				<div class="clear"></div>
-			</div>
+			<div th:replace="~{common/commons.html::topbar}"></div>
 		</header>
 	<!--end header -->
 
 <!-- start banner_x -->
-		<div class="banner_x center">
-			<a href="./index.html" target="_blank"><div class="logo fl"></div></a>
-			<a href=""><div class="ad_top fl"></div></a>
-
-			<div class="search fr">
-				<form action="" method="post">
-					<div class="text fl">
-						<input type="text" class="shuru"  placeholder="关键字查询">
-					</div>
-					<div class="submit fl">
-						<input type="submit" class="sousuo" value="搜索"/>
-					</div>
-					<div class="clear"></div>
-				</form>
-				<div class="clear"></div>
-			</div>
-		</div>
+		<div th:replace="~{common/commons.html::search}"></div>
 <!-- end banner_x -->
 
 	<!-- start banner_y -->
 		<div class="banner_y center">
 			<div class="nav">				
 				<ul>
-					<li>
-						<a href="">手机</a>
-						<a href="">电话卡</a>
-						<div class="pop">
-							<div class="left fl">
-								<div>
-									<div class="xuangou_left fl">
-										<a href="">
-											<div class="img fl"><img src="./image/5c_80.png" alt=""></div>
-											<span class="fl">小米手机5c</span>
-											<div class="clear"></div>
-										</a>
-									</div>
-									<div class="xuangou_right fr"><a href="">选购</a></div>
-									<div class="clear"></div>
-								</div>
-
-							</div>
-							<div class="clear"></div>
-						</div>
+					<li th:each="type,typeStat:${typeList}">
+						<a target="_blank" th:href="@{'/goods/list/'+${type.id}}" th:text="${type.typeName}"  ></a>
 					</li>
 
 				</ul>
@@ -94,21 +36,17 @@
 		<div class="danpin center">
 			
 			<div class="biaoti center">首页推荐</div>
-			<div class="main center">
-				<div class="mingxing fl">
-					<div class="sub_mingxing"><a href=""><img th:src="@{/img/pinpai1.png}" alt=""></a></div>
-					<div class="pinpai"><a href="">小米MIX</a></div>
-					<div class="youhui">5月9日-21日享花呗12期分期免息</div>
-					<div class="jiage">3499元起</div>
+			<div class="main center" >
+				<div class="mingxing fl" th:each="goods,goodsStat:${goodsList}">
+					<div class="sub_mingxing"><a href=""><img th:src="@{${goods.goodsImg}}" alt=""></a></div>
+					<div class="pinpai" th:text="${goods.goodsName}"><a href="" ></a></div>
+					<div class="youhui"th:text="${goods.goodsContent}"></div>
+					<div class="jiage"th:text="${goods.goodsPrice}"></div>
 				</div>
 			</div>
 				<div class="clear"></div>
-
 			</div>
 		</div>
-		<footer class="mt20 center">			
-			<div class="mt20">15322269017@163.com ChanJy</div>
-			<div>基于SpringBoot框架的网上购物商城设计</div>
-		</footer>
+	<div th:replace="~{common/commons.html::footer}"></div>
 	</body>
 </html>

@@ -2,8 +2,12 @@ package chanjy.controller;
 
 import chanjy.common.VerifyCode;
 import chanjy.pojo.Customer;
+import chanjy.pojo.Goods;
+import chanjy.pojo.Type;
 import chanjy.result.Result;
 import chanjy.service.LoginService;
+import chanjy.service.impl.GoodsServiceImpl;
+import chanjy.vo.GoodsVo;
 import chanjy.vo.LoginVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -17,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.List;
 
 @Controller
 public class LoginController {
@@ -27,6 +32,9 @@ public class LoginController {
     @Autowired
     private VerifyCode verifyCode;
 
+    @Autowired
+    private GoodsServiceImpl goodsService;
+
     @RequestMapping("/login")
     public String login(){
         return "login";
@@ -35,7 +43,10 @@ public class LoginController {
     @RequestMapping("/index")
     public String index(Model model,Customer customer){
         model.addAttribute("customer",customer);
-        System.out.println(customer.getAccount());
+        List<GoodsVo> goodsList = goodsService.queryGoodsByLimit();
+        model.addAttribute("goodsList",goodsList);
+        List<Type> typeList = goodsService.queryType();
+        model.addAttribute("typeList",typeList);
         return "index";
     }
 

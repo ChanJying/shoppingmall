@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!--头部导航-->
+
+    <div class="top center" th:fragment="topbar">
+        <div class="left fl">
+            <ul>
+                <li><a href="https://github.com/ChanJying/shoppingmall/tree/master" target="_blank">乐购商城</a></li>
+                <div class="clear"></div>
+            </ul>
+        </div>
+        <div class="right fr">
+            <div class="gouwuche fr"><a href="">购物车</a></div>
+            <div class="fr">
+                <ul>
+                    <div th:if="${customer eq null}">
+                        <li><a th:href="@{/login}"  >登录</a></li>
+                        <li>|</li>
+                        <li><a  th:href="@{/register}"  >注册</a></li>
+                    </div>
+                    <div th:unless="${customer eq null}" >
+                        <li><a th:href="@{/customerInfo}" th:text="${customer.getUsername()}" ></a></li>
+                    </div>
+                </ul>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+
+
+<!--搜索框-->
+<div class="banner_x center" th:fragment="search">
+    <a href="./index.html" target="_blank"><div class="logo fl"></div></a>
+    <a href=""><div class="ad_top fl"></div></a>
+
+    <div class="search fr">
+        <form action="" method="post">
+            <div class="text fl">
+                <input type="text" class="shuru"  placeholder="关键字查询">
+            </div>
+            <div class="submit fl">
+                <input type="submit" class="sousuo" value="搜索"/>
+            </div>
+            <div class="clear"></div>
+        </form>
+        <div class="clear"></div>
+    </div>
+</div>
+
+<div th:fragment="footer">
+<footer class="mt20 center">
+    <div class="mt20">15322269017@163.com ChanJy</div>
+    <div>基于SpringBoot框架的网上购物商城设计</div>
+</footer>
+</div>
+</html>

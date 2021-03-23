@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
 
-@Service("loginService")
+@Service
 public class LoginServiceImpl implements LoginService {
 
     public static final String COOKIE_NAME_TOKEN="token";

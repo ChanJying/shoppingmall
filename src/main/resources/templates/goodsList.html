@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>乐购商城</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+</head>
+<body>
+<!-- start header -->
+<header>
+    <div th:replace="~{common/commons.html::topbar}"></div>
+</header>
+<!--end header -->
+
+<!-- start banner_x -->
+<div th:replace="~{common/commons.html::search}"></div>
+<!-- end banner_x -->
+
+<!-- start banner_y -->
+<!-- end banner -->
+
+<!-- start danpin -->
+<div class="danpin center">
+
+    <div class="biaoti center" th:text="${typeName}"></div>
+    <div class="main center">
+        <div class="mingxing fl mb20" th:each="goods,goodsStat:${goodsList}" style="border:2px solid #fff;width:230px;cursor:pointer;" onmouseout="this.style.border='2px solid #fff'" onmousemove="this.style.border='2px solid red'">
+            <div class="sub_mingxing"><a href="" target="_blank"><img th:src="${goods.goodsImg}" alt=""></a></div>
+            <div class="pinpai"><a href="./xiangqing.html" target="_blank" th:text="${goods.goodsName}"></a></div>
+            <div class="youhui" th:text="${goods.goodsContent}"></div>
+            <div class="jiage" th:text="${goods.goodsPrice}"></div>
+        </div>
+
+</div>
+</div>
+<div class="clear"></div>
+<div th:replace="~{common/commons.html::footer}"></div>
+
+<!-- end danpin -->
+
+
+</body>
+</html>

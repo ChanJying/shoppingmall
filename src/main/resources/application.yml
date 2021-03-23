@@ -48,5 +48,5 @@ spring:
       poolPreparedStatements: true
       maxOpenPreparedStatements: 20
 mybatis-plus:
-  type-aliases-package: chanjy.pojo
+  type-aliases-package: chanjy.pojo,chanjy.vo
   mapper-locations: classpath:mapper/*.xml

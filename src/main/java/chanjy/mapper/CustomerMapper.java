@@ -8,8 +8,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CustomerMapper extends BaseMapper<Customer> {
 
-
     Customer queryCustomerByAccount(String account);
 
     int insertCustomer(Customer customer);
+
+
 }

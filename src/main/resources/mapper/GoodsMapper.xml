@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--绑定接口-->
+<mapper namespace="chanjy.mapper.GoodsMapper">
+
+    <select id="queryGoodsByLimit"  resultType="GoodsVo">
+        select id,goods_name,goods_price,goods_content,goods_img,goods_nums from goods where sale = 1 order by click desc Limit 5;
+    </select>
+
+    <select id="queryGoodsByType"  parameterType="int" resultType="GoodsVo">
+        select id,goods_name,goods_price,goods_content,goods_img,goods_nums from goods g  where type_id = #{typeId};
+    </select>
+
+    <select id="queryType"  resultType="Type">
+        select * from type ;
+    </select>
+
+    <select id="queryTypeById"  parameterType="int" resultType="Type">
+        select * from type where id = #{id} ;
+    </select>
+
+
+
+
+
+</mapper>
