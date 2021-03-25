@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>小米商城-个人中心</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/layui/css/layui.css}">
+</head>
+<body>
+<!-- start header -->
+<header>
+    <div th:replace="~{common/commons.html::topbar}"></div>
+</header>
+<!--end header -->
+<!-- start banner_x -->
+<div th:replace="~{common/commons.html::search}"></div>
+<!-- end banner_x -->
+<!-- self_info -->
+<div class="grzxbj">
+    <div class="selfinfo center">
+        <div class="lfnav fl">
+            <div class="ddzx">个人中心</div>
+            <div class="subddzx">
+                <ul>
+                    <li><a href="" >我的订单</a></li>
+                    <li><a href=""  style="color:#ff6700;font-weight:bold;">收货地址</a></li>
+                </ul>
+            </div>
+
+        </div>
+        <div class="rtcont fr">
+            <div class="ddzxbt">收货地址</div>
+            <input th:value="${customer.id}" id="customerId" name="customerId" type="hidden">
+            <div class="layui-inline" style="margin-top: 30px;width: 100%">
+                <label class="layui-form-label" style="font-weight: bold;font-size: 15px">收货人 :</label>
+                <div class="layui-input-inline">
+                    <input type="text" th:value="${address.consignee}" id="consignee" name="consignee" class="layui-input">
+                    <span class="error_tip"></span>
+                </div>
+            </div>
+            <div class="layui-inline" style="margin-top: 30px;width: 100%"  >
+                <label class="layui-form-label" style="font-weight: bold;font-size: 15px">收货地址 :</label>
+                <div class="layui-input-inline">
+                    <input type="text" th:value="${address.address}" id="address" name="address" class="layui-input">
+                    <span class="error_tip"></span>
+                </div>
+            </div>
+            <div class="layui-inline " style="margin-top: 30px;width: 100%">
+                <label class="layui-form-label" style="font-weight: bold;font-size: 15px">手机号 :</label>
+                <div class="layui-input-inline">
+                    <input type="tel" th:value="${address.phone}" id="phone" name="phone" lay-verify="required|phone" autocomplete="off" class="layui-input">
+                    <span class="error_tip"></span>
+                </div>
+            </div>
+            <button type="button" onclick="submitAddress()" class="layui-btn layui-btn-normal" style="background-color:#ff6700;width:120px;margin-top:30px;margin-left:171px">提交</button>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+<!-- self_info -->
+
+<div th:replace="~{common/commons.html::footer}"></div>
+</body>
+<script type="text/javascript" th:src="@{/js/jquery-3.6.0.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/layer/layer.js}"></script>
+<script>
+    var flagConsignee = false;
+    var flagAddress = false;
+    var flagPhone = false;
+    $(function () {
+
+        var $consignee = $('#consignee');
+        var $address = $('#address');
+        var $phone = $('#phone');
+
+        $consignee.blur(function () {
+            fnCheckConsignee();
+        });
+
+        function fnCheckConsignee() {
+            var vals = $consignee.val();
+
+            if (vals == '') {
+                $consignee.next().show().html('收货人不能为空')
+                flagConsignee = false;
+                return
+            } else {
+                $consignee.next().hide();
+                flagConsignee = true;
+            }
+        }
+
+        $address.blur(function () {
+            fnCheckAddress();
+        });
+
+        function fnCheckAddress() {
+            var vals = $address.val();
+            if (vals == '') {
+                $address.next().show().html('收货地址不能为空')
+                flagAddress = false;
+                return
+            } else {
+                $address.next().hide();
+                flagAddress = true
+            }
+        }
+
+        $phone.blur(function () {
+            // 封装函数 调用函数
+            fnCheckPhone();
+        });
+        function fnCheckPhone() {
+            // 获取用户输入的数据
+            var vals = $phone.val();
+            // 正则，正则验证用户输入的数据是否合法
+            var re = /^1[0-9]{10}$/;
+
+            if (vals == '') {
+                $phone.next().show().html('手机号不能为空')
+                flagPhone=false;
+                return
+            }
+            if (re.test(vals)) {
+                $phone.next().hide();
+                flagPhone=true;
+            } else {
+                $phone.next().show().html('手机号格式不正确');
+                flagPhone=false;
+            }
+        }
+
+
+    })
+    
+    function submitAddress() {
+        var consignee = $("#consignee").val();
+        var address = $("#address").val();
+        var phone = $("#phone").val();
+        console.log(consignee)
+        if(consignee!=''){flagConsignee=true}
+        if(address!=''){flagAddress=true}
+        if(phone!=''){flagPhone=true}
+        if(flagConsignee && flagAddress && flagPhone){
+            doSubmit();
+        }
+    }
+    function doSubmit() {
+        $.ajax({
+            url:"/selfInfo/setAddress",
+            type:"POST",
+            data:{
+                customerId:$("#customerId").val(),
+                consignee:$("#consignee").val(),
+                address:$("#address").val(),
+                phone:$("#phone").val()
+            },
+            success:function (data) {
+                layer.closeAll();
+                if(data.code==0){
+                    layer.msg("成功");
+                }else {
+                    layer.msg(data.msg);
+                }
+            },
+            error:function () {
+                layer.closeAll();
+            }
+        })
+    }
+</script>
+</html>

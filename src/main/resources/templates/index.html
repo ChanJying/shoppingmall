@@ -4,6 +4,29 @@
 		<meta charset="UTF-8">
 		<title>乐购商城</title>
 		<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+		<style>
+			.chooseBut{
+			width: 50px;
+			height: 80px;
+			background-color: rgba(0,0,0,0.2);
+			color: #fff;
+			font-size: 30px;
+			line-height: 80px;
+			text-align: center;
+				display: none;
+			}
+
+			#left{
+				position: absolute;
+				left: 0px;
+				top: 130px;
+			}
+			#right{
+				position: absolute;
+				right: 0px;
+				top: 130px;
+			}
+		</style>
 	</head>
 	<body>
 	<!-- start header -->
@@ -18,15 +41,20 @@
 
 	<!-- start banner_y -->
 		<div class="banner_y center">
-			<div class="nav">				
+			<div class="nav">
 				<ul>
 					<li th:each="type,typeStat:${typeList}">
 						<a target="_blank" th:href="@{'/goods/list/'+${type.id}}" th:text="${type.typeName}"  ></a>
 					</li>
-
 				</ul>
 			</div>
-
+			<div style="width: 992px;height: 460px;position: relative;top: -460px;left: 234px;">
+				<div id="loopDiv" style="height: 460px">
+					<img id="pic" src="/img/1.jpg" width="992" height="460">
+					<div id="left" class="chooseBut"><</div>
+					<div id="right" class="chooseBut">></div>
+				</div>
+			</div>
 		</div>
 			<div class="clear"></div>
 		</div>
@@ -38,10 +66,10 @@
 			<div class="biaoti center">首页推荐</div>
 			<div class="main center" >
 				<div class="mingxing fl" th:each="goods,goodsStat:${goodsList}">
-					<div class="sub_mingxing"><a href=""><img th:src="@{${goods.goodsImg}}" alt=""></a></div>
-					<div class="pinpai" th:text="${goods.goodsName}"><a href="" ></a></div>
-					<div class="youhui"th:text="${goods.goodsContent}"></div>
-					<div class="jiage"th:text="${goods.goodsPrice}"></div>
+					<div class="sub_mingxing"><a th:href="@{'/goods/detail/'+${goods.id}}"  target="_blank"><img th:src="@{${goods.goodsImg}}"  alt=""></a></div>
+					<div class="pinpai" ><a th:href="@{'/goods/detail/'+${goods.id}}" target="_blank" th:text="${goods.goodsName}"  ></a></div>
+					<div class="youhui"><a th:href="@{'/goods/detail/'+${goods.id}}" target="_blank" th:text="${goods.goodsContent}"  ></a></div>
+					<div class="jiage"><a th:href="@{'/goods/detail/'+${goods.id}}" target="_blank" th:text="${goods.goodsPrice}" ></a></div>
 				</div>
 			</div>
 				<div class="clear"></div>
@@ -49,4 +77,85 @@
 		</div>
 	<div th:replace="~{common/commons.html::footer}"></div>
 	</body>
+
+	<script type="text/javascript" th:src="@{/js/jquery-3.6.0.min.js}"></script>
+<script>
+	var jsDivBox = document.getElementById("loopDiv");
+	console.log(jsDivBox)
+	//图片节点
+	var jsImg = document.getElementById("pic");
+	//左右按钮节点
+	var jsLeft = document.getElementById("left");
+	var jsRight = document.getElementById("right");
+
+	//显示当前的图片下标
+	var currentPage = 0;
+
+	//启动定时器
+	var timer = setInterval(func, 4000);
+	function func() {
+		currentPage++;
+		changePic();
+	}
+	function changePic() {
+		if (currentPage >= 3) {
+			currentPage = 1;
+		}
+		if (currentPage <= 0) {
+			currentPage = 1;
+		}
+		//更换图片
+		//"img/1.jpg"
+		jsImg.src = "img/" + currentPage + ".jpg";
+	}
+	//鼠标点击
+	jsDivBox.addEventListener("click", func5, false);
+	function func5(){
+		window.open("/goods/detail/"+currentPage)
+	}
+	//鼠标进入
+	jsDivBox.addEventListener("mouseover", func1, false);
+	function func1() {
+		//停止定时器
+		clearInterval(timer);
+		//显示左右按钮
+		jsLeft.style.display = "block";
+		jsRight.style.display = "block";
+	}
+	//鼠标移出
+	jsDivBox.addEventListener("mouseout", func2, false);
+	function func2() {
+		//重启定时器
+		timer = setInterval(func, 4000);
+
+		//隐藏左右按钮
+		jsLeft.style.display = "none";
+		jsRight.style.display = "none";
+	}
+
+	//点击左右按钮
+	jsLeft.onclick = function(e) {
+		currentPage--;
+		changePic();
+		window.event? window.event.cancelBubble = true : e.stopPropagation();
+	}
+	jsLeft.onmouseover = function() {
+		this.style.backgroundColor = "rgba(0,0,0,0.6)";
+	}
+	jsLeft.onmouseout = function() {
+		this.style.backgroundColor = "rgba(0,0,0,0.2)";
+	}
+	jsRight.onclick = function(e) {
+		currentPage++;
+		changePic();
+		window.event? window.event.cancelBubble = true : e.stopPropagation();
+	}
+	jsRight.onmouseover = function() {
+		this.style.backgroundColor = "rgba(0,0,0,0.6)";
+	}
+	jsRight.onmouseout = function() {
+		this.style.backgroundColor = "rgba(0,0,0,0.2)";
+	}
+
+</script>
 </html>

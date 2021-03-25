@@ -40,7 +40,7 @@ public class LoginController {
         return "login";
     }
 
-    @RequestMapping("/index")
+    @RequestMapping(value = {"/index","/"})
     public String index(Model model,Customer customer){
         model.addAttribute("customer",customer);
         List<GoodsVo> goodsList = goodsService.queryGoodsByLimit();

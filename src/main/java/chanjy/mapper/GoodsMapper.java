@@ -18,4 +18,6 @@ public interface GoodsMapper {
     Type queryTypeById(int id);
 
     List<GoodsVo> queryGoodsByType(int typeId);
+
+    GoodsVo queryGoodsById(int id);
 }

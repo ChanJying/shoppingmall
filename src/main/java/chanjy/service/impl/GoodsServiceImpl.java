@@ -29,4 +29,8 @@ public class GoodsServiceImpl {
         return goodsMapper.queryGoodsByType(typeId);
     }
 
+    public GoodsVo queryGoodsById(int id){
+        return goodsMapper.queryGoodsById(id);
+    }
+
 }

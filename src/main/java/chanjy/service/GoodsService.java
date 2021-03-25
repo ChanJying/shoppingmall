@@ -16,6 +16,7 @@ public interface GoodsService {
 
     List<GoodsVo> queryGoodsByType(int typeId);
 
+    GoodsVo queryGoodsById(int id);
 
 
 }

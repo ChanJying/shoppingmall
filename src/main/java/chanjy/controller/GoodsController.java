@@ -36,6 +36,15 @@ public class GoodsController {
         model.addAttribute("goodsList",goodsList);
         return "goodsList";
     }
+    @RequestMapping("/detail/{id}")
+    public String getGoodsDetail(Model model,Customer customer,@PathVariable("id")int goodsId){
+        model.addAttribute("customer",customer);
+        GoodsVo goods = goodsService.queryGoodsById(goodsId);
+        model.addAttribute("goods",goods);
+        return "goodsDetail";
+    }
+
+
 
 
 }

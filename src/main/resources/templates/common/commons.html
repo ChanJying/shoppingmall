@@ -19,7 +19,7 @@
                         <li><a  th:href="@{/register}"  >注册</a></li>
                     </div>
                     <div th:unless="${customer eq null}" >
-                        <li><a th:href="@{/customerInfo}" th:text="${customer.getUsername()}" ></a></li>
+                        <li><a th:href="@{/customerInfo}" th:text="'个人中心:'+${customer.getUsername()}" ></a></li>
                     </div>
                 </ul>
             </div>
