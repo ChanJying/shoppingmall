@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>我的购物车-小米商城</title>
-    <link rel="stylesheet" type="text/css" href="./css/style.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
 </head>
 <body>
 <!-- start header -->
@@ -11,17 +11,17 @@
 
 <!-- start banner_x -->
 <div class="banner_x center">
-    <a href="./index.html" target="_blank"><div class="logo fl"></div></a>
+    <a th:href="@{/index} "target="_blank"><div class="logo fl"></div></a>
 
     <div class="wdgwc fl ml40">我的购物车</div>
     <div class="wxts fl ml20">温馨提示：产品是否购买成功，以最终下单为准哦，请尽快结算</div>
     <div class="dlzc fr">
-        <li><a th:href="@{/customerInfo}" th:text="'个人中心:'+${customer.getUsername()}" ></a></li>
+        <li><a th:href="@{/selfInfo/selfOrder}" target="_blank" th:text="'个人中心:'+${customer.username}" ></a></li>
     </div>
     <div class="clear"></div>
 </div>
 <div class="xiantiao"></div>
-<div class="gwcxqbj">
+<div class="gwcxqbj" style="height: auto">
     <div class="gwcxd center">
         <div class="top2 center">
             <div class="sub_top fl">
@@ -34,20 +34,22 @@
             <div class="sub_top fr">操作</div>
             <div class="clear"></div>
         </div>
-        <div class="content2 center">
+        <div class="content2 center" th:each="cartVo,cartVoStat:${cartVos}" >
             <div class="sub_content fl ">
                 <input type="checkbox" value="quanxuan" class="quanxuan" />
             </div>
-            <div class="sub_content fl"><img src="./image/gwc_xiaomi6.jpg"></div>
-            <div class="sub_content fl ft20">小米6全网通6GB内存+64GB 亮黑色</div>
-            <div class="sub_content fl ">2499元</div>
+            <input id="cartId" th:value="${cartVo.cartId}" type="hidden">
+            <div class="sub_content fl"><img style="width: 80px;height: 80px" th:src="@{${cartVo.goodsImg}}"></div>
+            <div class="sub_content fl ft20" th:text="${cartVo.goodsContent}"></div>
+            <div class="sub_content fl " th:text="${cartVo.goodsPrice}"></div>
             <div class="sub_content fl">
-                <input class="shuliang" type="number" value="1" step="1" min="1" >
+                <input class="shuliang" type="number" th:value="${cartVo.goodsNums}" step="1" min="1" >
             </div>
-            <div class="sub_content fl">2499元</div>
-            <div class="sub_content fl"><a href="">×</a></div>
-            <div class="clear"></div>
+            <div class="sub_content fl" th:text="${cartVo.goodsPrice}*${cartVo.goodsNums}"></div>
+            <div class="sub_content fl" style="cursor:pointer;"><a onclick="deleteCart()">×</a></div>
+
         </div>
+        <div class="clear"></div>
 
     </div>
     <div class="jiesuandan mt20 center">
@@ -76,4 +78,28 @@
 <div th:replace="~{common/commons.html::footer}"></div>
 
 </body>
+<script type="text/javascript" th:src="@{/js/common/common.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery-3.6.0.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/layer/layer.js}"></script>
+<script>
+    function deleteCart(){
+        g_showLoading();
+        $.ajax({
+            url:"/cart/deleteCart/"+$("#cartId").val(),
+            success:function (data) {
+                layer.closeAll();
+                if(data.code==0){
+                    layer.msg("成功");
+                    location.reload();
+                }else {
+                    layer.msg(data.msg);
+                }
+            },
+            error:function () {
+                layer.closeAll();
+            }
+        })
+
+    }
+</script>
 </html>

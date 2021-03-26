@@ -20,9 +20,9 @@
     <div class="selfinfo center">
         <div class="lfnav fl">
             <div class="ddzx">个人中心</div>
-            <div class="subddzx">
+            <div class="subddzx" style="font-size: 16px">
                 <ul>
-                    <li><a href="" >我的订单</a></li>
+                    <li><a th:href="@{/selfInfo/selfOrder}" >我的订单</a></li>
                     <li><a href=""  style="color:#ff6700;font-weight:bold;">收货地址</a></li>
                 </ul>
             </div>
@@ -34,21 +34,36 @@
             <div class="layui-inline" style="margin-top: 30px;width: 100%">
                 <label class="layui-form-label" style="font-weight: bold;font-size: 15px">收货人 :</label>
                 <div class="layui-input-inline">
-                    <input type="text" th:value="${address.consignee}" id="consignee" name="consignee" class="layui-input">
+                    <div th:if="${address eq null}">
+                    <input type="text"  id="consignee" name="consignee" class="layui-input">
+                    </div>
+                    <div th:unless="${address eq null}">
+                        <input type="text" th:value="${address.consignee}" id="consignee" name="consignee" class="layui-input">
+                    </div>
                     <span class="error_tip"></span>
                 </div>
             </div>
             <div class="layui-inline" style="margin-top: 30px;width: 100%"  >
                 <label class="layui-form-label" style="font-weight: bold;font-size: 15px">收货地址 :</label>
                 <div class="layui-input-inline">
+                    <div th:if="${address eq null}">
+                    <input type="text"  id="address" name="address" class="layui-input">
+                    </div>
+                    <div th:unless="${address eq null}">
                     <input type="text" th:value="${address.address}" id="address" name="address" class="layui-input">
+                     </div>
                     <span class="error_tip"></span>
                 </div>
             </div>
             <div class="layui-inline " style="margin-top: 30px;width: 100%">
                 <label class="layui-form-label" style="font-weight: bold;font-size: 15px">手机号 :</label>
                 <div class="layui-input-inline">
-                    <input type="tel" th:value="${address.phone}" id="phone" name="phone" lay-verify="required|phone" autocomplete="off" class="layui-input">
+                    <div th:if="${address eq null}">
+                    <input type="tel"  id="phone" name="phone" lay-verify="required|phone" autocomplete="off" class="layui-input">
+                    </div>
+                    <div th:unless="${address eq null}">
+                        <input type="text"th:value="${address.phone}" id="address" name="address" class="layui-input">
+                    </div>
                     <span class="error_tip"></span>
                 </div>
             </div>

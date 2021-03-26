@@ -44,7 +44,7 @@
 			<div class="nav">
 				<ul>
 					<li th:each="type,typeStat:${typeList}">
-						<a target="_blank" th:href="@{'/goods/list/'+${type.id}}" th:text="${type.typeName}"  ></a>
+						<a target="_blank" th:href="@{'/goods/list/'+${type.id}}"   ><p th:text="${type.typeName}"></p></a>
 					</li>
 				</ul>
 			</div>

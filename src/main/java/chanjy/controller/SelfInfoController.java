@@ -27,7 +27,7 @@ public class SelfInfoController {
     public String toSelfAddress(Model model, Customer customer){
         model.addAttribute("customer",customer);
         Address address = customerService.queryAddressByCustomerId(customer.getId());
-        if(address!=null) model.addAttribute("address",address);
+        model.addAttribute("address",address);
         return "selfAddress";
     }
 

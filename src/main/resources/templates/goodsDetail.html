@@ -30,6 +30,8 @@
     </div>
 
     <div class="jieshao mt20 w">
+        <input id="goodsId" th:value="${goods.id}" type="hidden">
+        <input id="customerId" th:value="${customer.id}" type="hidden">
         <div class="left fl"><img th:src="@{${goods.goodsImg}}"></div>
         <div class="right fr">
             <div class="h3 ml20 mt20" th:text="${goods.goodsName}"></div>
@@ -52,7 +54,7 @@
 
             <div class="xiadan ml20 mt20">
                 <input class="jrgwc"  type="button" name="jrgwc" value="立即选购" />
-                <input class="jrgwc" type="button" name="jrgwc" value="加入购物车" />
+                <input class="jrgwc" type="button" onclick="addCart()" name="jrgwc" value="加入购物车" />
             </div>
         </div>
         <div class="clear"></div>
@@ -82,7 +84,33 @@
 
 </body>
 <script type="text/javascript" th:src="@{/js/jquery-3.6.0.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/layer/layer.js}"></script>
+<script type="text/javascript" th:src="@{/js/common/common.js}"></script>
 <script>
+    function addCart() {
+        g_showLoading();
+        $.ajax({
+            url:"/cart/addCart",
+            type:"POST",
+            data:{
+                goodsId:$("#goodsId").val(),
+                customerId:$("#customerId").val(),
+                goodsNums:$("#goodsNum").val()
+            },
+            success:function (data) {
+                layer.closeAll();
+                if(data.code==0){
+                    layer.msg("成功");
+                }else {
+                    layer.msg(data.msg);
+                }
+            },
+            error:function () {
+                layer.closeAll();
+            }
+        })
+    }
+
     function sub() {
         var num = $("#goodsNum").val();
         if(num<=1) {
@@ -102,5 +130,7 @@
             // console.log(num);
         }
     }
+
+
 </script>
 </html>
