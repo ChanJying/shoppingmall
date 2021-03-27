@@ -30,3 +30,11 @@ Date.prototype.format = function (format) {
 	}
 	return format;
 };
+function searchName() {
+	var search = $("#search").val();
+	if(search==''){
+		layer.msg("请输入关键词");
+	}else {
+		window.open("/goods/search/"+search);
+	}
+};

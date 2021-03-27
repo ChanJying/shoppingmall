@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <!--头部导航-->
-
     <div class="top center" th:fragment="topbar">
         <div class="left fl">
             <ul>
@@ -10,9 +9,9 @@
             </ul>
         </div>
         <div class="right fr">
-            <a th:href="@{/cart/toCart}" target="_blank">
-            <div class="gouwuche fr">购物车</div>
-            </a>
+
+            <div class="fr"><a th:href="@{/cart/toCart}" target="_blank"><div class="gouwuche ">购物车</div></a></div>
+
             <div class="fr">
                 <ul>
                     <div th:if="${customer eq null}">
@@ -39,10 +38,10 @@
     <div class="search fr">
         <form action="" method="post">
             <div class="text fl">
-                <input type="text" class="shuru"  placeholder="关键字查询">
+                <input type="text" class="shuru" id="search" placeholder="关键字查询">
             </div>
             <div class="submit fl">
-                <input type="submit" class="sousuo" value="搜索"/>
+                <input type="button" class="sousuo" onclick="searchName()" value="搜索"/>
             </div>
             <div class="clear"></div>
         </form>
@@ -56,4 +55,5 @@
     <div>基于SpringBoot框架的网上购物商城设计</div>
 </footer>
 </div>
+
 </html>

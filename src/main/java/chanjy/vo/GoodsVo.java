@@ -67,4 +67,16 @@ public class GoodsVo {
         this.goodsImg = goodsImg;
         this.goodsNums = goodsNums;
     }
+
+    @Override
+    public String toString() {
+        return "GoodsVo{" +
+                "id=" + id +
+                ", goodsName='" + goodsName + '\'' +
+                ", goodsPrice=" + goodsPrice +
+                ", goodsContent='" + goodsContent + '\'' +
+                ", goodsImg='" + goodsImg + '\'' +
+                ", goodsNums=" + goodsNums +
+                '}';
+    }
 }

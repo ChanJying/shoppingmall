@@ -4,7 +4,6 @@ import chanjy.pojo.Customer;
 import chanjy.pojo.Type;
 import chanjy.result.Result;
 import chanjy.service.GoodsService;
-import chanjy.service.impl.GoodsServiceImpl;
 import chanjy.vo.GoodsVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,7 +18,7 @@ import java.util.List;
 public class GoodsController {
 
     @Autowired
-    private GoodsServiceImpl goodsService;
+    private GoodsService goodsService;
 
     @RequestMapping("/list")
     public String toGoodsList(Model model, Customer customer){
@@ -42,6 +41,14 @@ public class GoodsController {
         GoodsVo goods = goodsService.queryGoodsById(goodsId);
         model.addAttribute("goods",goods);
         return "goodsDetail";
+    }
+
+    @RequestMapping("/search/{searchName}")
+    public String queryBySearch(Model model,Customer customer,@PathVariable("searchName")String searchName){
+        model.addAttribute("customer",customer);
+        List<GoodsVo> goodsList = goodsService.queryBySearch(searchName);
+        model.addAttribute("goodsList",goodsList);
+        return "goodsList";
     }
 
 

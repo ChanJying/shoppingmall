@@ -18,5 +18,7 @@ public interface GoodsService {
 
     GoodsVo queryGoodsById(int id);
 
+    List<GoodsVo> queryBySearch(String searchName);
+
 
 }

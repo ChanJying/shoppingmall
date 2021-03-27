@@ -4,7 +4,9 @@ import chanjy.mapper.CustomerMapper;
 import chanjy.pojo.Customer;
 import chanjy.redis.RedisService;
 import chanjy.service.CartService;
+import chanjy.service.GoodsService;
 import chanjy.vo.CartVo;
+import chanjy.vo.GoodsVo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,11 +23,14 @@ class ShoppingMallApplicationTests {
     CustomerMapper customerMapper;
     @Autowired
     CartService cartService;
+    @Autowired
+    GoodsService goodsService;
     @Test
     void contextLoads() {
-        List<CartVo> cartVos = cartService.queryCartByCustomerId(8);
-        for (CartVo cartVo : cartVos) {
-            System.out.println(cartVo);
+
+        List<GoodsVo> goodsVoList = goodsService.queryBySearch("米");
+        for (GoodsVo vo : goodsVoList) {
+            System.out.println(vo.toString());
         }
 
     }

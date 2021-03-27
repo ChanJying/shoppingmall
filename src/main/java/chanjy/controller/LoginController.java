@@ -2,15 +2,13 @@ package chanjy.controller;
 
 import chanjy.common.VerifyCode;
 import chanjy.pojo.Customer;
-import chanjy.pojo.Goods;
 import chanjy.pojo.Type;
 import chanjy.result.Result;
+import chanjy.service.GoodsService;
 import chanjy.service.LoginService;
-import chanjy.service.impl.GoodsServiceImpl;
 import chanjy.vo.GoodsVo;
 import chanjy.vo.LoginVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +31,7 @@ public class LoginController {
     private VerifyCode verifyCode;
 
     @Autowired
-    private GoodsServiceImpl goodsService;
+    private GoodsService goodsService;
 
     @RequestMapping("/login")
     public String login(){

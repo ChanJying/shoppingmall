@@ -25,7 +25,7 @@
     <div class="gwcxd center">
         <div class="top2 center">
             <div class="sub_top fl">
-                <input type="checkbox" value="quanxuan" class="quanxuan" />全选
+                <input type="checkbox" id="chooseAll" name="chooseAll" value="quanxuan" class="quanxuan" />全选
             </div>
             <div class="sub_top fl">商品名称</div>
             <div class="sub_top fl">单价</div>
@@ -34,18 +34,20 @@
             <div class="sub_top fr">操作</div>
             <div class="clear"></div>
         </div>
-        <div class="content2 center" th:each="cartVo,cartVoStat:${cartVos}" >
+        <div class="content2 center cart_item" th:each="cartVo,cartVoStat:${cartVos}" >
             <div class="sub_content fl ">
-                <input type="checkbox" value="quanxuan" class="quanxuan" />
+                <input type="checkbox" class="shop_checkbox quanxuan"id="choose" name="choose"  th:onclick="|changeTotalPrice('${cartVoStat.index}')|"  />
             </div>
+
             <input id="cartId" th:value="${cartVo.cartId}" type="hidden">
+
             <div class="sub_content fl"><img style="width: 80px;height: 80px" th:src="@{${cartVo.goodsImg}}"></div>
             <div class="sub_content fl ft20" th:text="${cartVo.goodsContent}"></div>
             <div class="sub_content fl " th:text="${cartVo.goodsPrice}"></div>
             <div class="sub_content fl">
                 <input class="shuliang" type="number" th:value="${cartVo.goodsNums}" step="1" min="1" >
             </div>
-            <div class="sub_content fl" th:text="${cartVo.goodsPrice}*${cartVo.goodsNums}"></div>
+            <div class=" sub_content fl "   ><span class="price" th:text="${cartVo.goodsPrice}*${cartVo.goodsNums}"></span></div>
             <div class="sub_content fl" style="cursor:pointer;"><a onclick="deleteCart()">×</a></div>
 
         </div>
@@ -57,13 +59,13 @@
             <ul>
                 <li><a th:href="@{/index}" target="_blank">继续购物</a></li>
                 <li>|</li>
-                <li>共<span>2</span>件商品，已选择<span>1</span>件</li>
+                <li>共<span th:text="${cartVos.size()}"></span>件商品，已选择<span class="selectNum">0</span>件</li>
                 <div class="clear"></div>
             </ul>
         </div>
         <div class="jiesuan fr">
-            <div class="jiesuanjiage fl">合计（不含运费）：<span>2499.00元</span></div>
-            <div class="jsanniu fr"><input class="jsan" type="submit" name="jiesuan"  value="去结算"/></div>
+            <div class="jiesuanjiage fl">合计（不含运费）：<span class="totalPrice">0.00</span><span>元</span></div>
+            <div class="jsanniu fr"><input class="jsan" type="button" name="jiesuan" onclick="account()" value="去结算"/></div>
             <div class="clear"></div>
         </div>
         <div class="clear"></div>
@@ -79,9 +81,14 @@
 
 </body>
 <script type="text/javascript" th:src="@{/js/common/common.js}"></script>
-<script type="text/javascript" th:src="@{/js/jquery-3.6.0.min.js}"></script>
 <script type="text/javascript" th:src="@{/js/layer/layer.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery-3.6.0.min.js}"></script>
+
 <script>
+    function account() {
+
+    }
+
     function deleteCart(){
         g_showLoading();
         $.ajax({
@@ -101,5 +108,34 @@
         })
 
     }
+
+    $("#chooseAll").change(function () {
+        var status =$("#chooseAll").prop("checked");
+        $(".shop_checkbox").prop("checked",status);
+        if(status){
+            var total_price = 0.00;
+            var total_quantity =0;
+            $(".price").each(function () {
+                var singleTotalPrice = parseFloat($(this).text());
+                total_price +=singleTotalPrice;
+                total_quantity +=1;
+            });
+            $(".selectNum").text(total_quantity);
+            $(".totalPrice").text(total_price.toFixed(2));
+        }else {
+            $(".selectNum").text(0);
+            $(".totalPrice").text(0.00);
+        }
+    });
+
+
+    function changeTotalPrice(index) {
+        var status =  $(".shop_checkbox").eq(index).prop("checked");
+        var total =  $(".cart_item").eq(index).find(".price").text();
+
+
+    }
+
+
 </script>
 </html>

@@ -3,6 +3,7 @@ package chanjy.service.impl;
 import chanjy.mapper.GoodsMapper;
 import chanjy.pojo.Goods;
 import chanjy.pojo.Type;
+import chanjy.service.GoodsService;
 import chanjy.vo.GoodsVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class GoodsServiceImpl {
+public class GoodsServiceImpl implements GoodsService {
     @Autowired
     private GoodsMapper goodsMapper;
 
@@ -31,6 +32,10 @@ public class GoodsServiceImpl {
 
     public GoodsVo queryGoodsById(int id){
         return goodsMapper.queryGoodsById(id);
+    }
+
+    public List<GoodsVo> queryBySearch(String searchName){
+        return goodsMapper.queryBySearch(searchName);
     }
 
 }

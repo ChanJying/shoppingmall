@@ -21,8 +21,13 @@
 
 <!-- start danpin -->
 <div class="danpin center">
+    <div th:if="${goodsList eq null}">
+        <div class="biaoti center" th:text="无相关商品"></div>
+    </div>
+    <div th:unless="${goodsList eq null}">
+        <div class="biaoti center" th:text="${typeName}"></div>
+    </div>
 
-    <div class="biaoti center" th:text="${typeName}"></div>
     <div class="main center">
         <div class="mingxing fl mb20"   th:each="goods,goodsStat:${goodsList}" style="border:2px solid #fff;width:230px;cursor:pointer;" onmouseout="this.style.border='2px solid #fff'" onmousemove="this.style.border='2px solid red'">
             <div class="sub_mingxing"><a th:href="@{'/goods/detail/'+${goods.id}}" target="_blank"><img th:src="${goods.goodsImg}" alt=""></a></div>
@@ -42,6 +47,8 @@
 
 </body>
 <script type="text/javascript" th:src="@{/js/jquery-3.6.0.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/common/common.js}"></script>
+<script type="text/javascript" th:src="@{/js/layer/layer.js}"></script>
 <script>
 
 </script>
