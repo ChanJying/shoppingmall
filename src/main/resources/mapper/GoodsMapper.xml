@@ -41,6 +41,9 @@
         where goods_name like "%"#{nameSearch}"%"
     </select>
 
+    <update id="updateGoodsNums" >
+        update  goods set goods_nums = goods_nums - #{goodsNums} where  id = #{id}
+    </update>
 
 
 

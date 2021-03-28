@@ -38,4 +38,7 @@ public class GoodsServiceImpl implements GoodsService {
         return goodsMapper.queryBySearch(searchName);
     }
 
+    public int updateGoodsNums(int goodsId, int goodsNums) {
+        return goodsMapper.updateGoodsNums(goodsId,goodsNums);
+    }
 }

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--绑定接口-->
+<mapper namespace="chanjy.mapper.OrderMapper">
+
+    <select id="selectOrderByCustomerId" parameterType="int" resultType="Order">
+    select * from `order` where customer_id = #{customerId}
+</select>
+
+    <select id="selectOrderToOrderVo" parameterType="int" resultType="OrderVo">
+    select DISTINCT customer_id,order_date,order_state,order_id
+    from `order`
+    where customer_id = #{customerId}
+    order by order_state ASC
+</select>
+
+
+    <insert id="addOrder" parameterType="Order">
+    insert into `order`(goods_id,customer_id,goods_nums,order_state,order_date,order_id)
+    values (#{goodsId},#{customerId},#{goodsNums},#{orderState},#{orderDate},#{orderId})
+</insert>
+
+
+</mapper>

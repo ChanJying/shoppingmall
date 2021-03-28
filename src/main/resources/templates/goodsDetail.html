@@ -39,7 +39,7 @@
 
             <div class="jiage ml20 mt10" >
                 <span >价格:</span>
-                <span th:text="${goods.goodsPrice}+'元'"></span>
+                <span id="price" th:text="${goods.goodsPrice}"></span><span>元</span>
             </div>
             <div class="xzbb ml20 mt10">
                 <span><button style="background-color: #ff6700" type="button" class="layui-btn" onclick="sub()"><i class="layui-icon"></i></button></span>
@@ -53,7 +53,7 @@
             </div>
 
             <div class="xiadan ml20 mt20">
-                <input class="jrgwc"  type="button" name="jrgwc" value="立即选购" />
+                <input class="jrgwc"  type="button" name="jrgwc" onclick="comfirm()" value="立即选购" />
                 <input class="jrgwc" type="button" onclick="addCart()" name="jrgwc" value="加入购物车" />
             </div>
         </div>
@@ -127,10 +127,58 @@
             $("#goodsNum").attr("value",max);
         }else {
             $("#goodsNum").attr("value",num+1);
-            // console.log(num);
         }
     }
 
+
+
+    function comfirm() {
+        var price =$("#price").text();
+        var goodsNums =  $("#goodsNum").val();
+        var totalPrice = (parseFloat(price)*goodsNums).toFixed(2)
+        //配置一个透明的询问框
+        layer.open({
+            type: 2
+            ,title: '请支付'+totalPrice+'元'
+            ,area: ['550px', '600px']
+            ,shade: 0
+            ,content: '/pay'
+            ,btn: ['已支付', '取消'] //只是为了演示
+            ,yes: function(){
+                buy();
+            }
+            ,btn2: function(){
+                layer.closeAll();
+                layer.msg("取消购买");
+            }
+        });
+    }
+
+    function buy() {
+        var orderMap = {};
+        var goodsId = $("#goodsId").val();
+        var goodsNums =  $("#goodsNum").val();
+        orderMap[parseInt(goodsId)]= parseInt(goodsNums);
+        $.ajax({
+            url:"/cart/doBuy",
+            type:"POST",
+            dataType:'json',
+            contentType: 'application/json',
+            data: JSON.stringify(orderMap),
+            success:function (data) {
+                layer.closeAll();
+                if(data.code==0){
+                    layer.msg("购买成功");
+                    window.location.href="/selfInfo/selfOrder"
+                }else {
+                    layer.msg(data.msg);
+                }
+            },
+            error:function () {
+                layer.closeAll();
+            }
+        })
+    }
 
 </script>
 </html>

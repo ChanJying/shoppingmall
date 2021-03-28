@@ -9,9 +9,10 @@ public enum CodeMsg {
     ACCOUNT_EXIST(500210,"用户已存在"),
     VERIFYCODE_ERROR(500211,"验证码不正确"),
     ACCOUNT_NOT_EXIST(500212,"用户不存在"),
-    PASSWORD_MISTAKE(500213,"密码错误");
+    PASSWORD_MISTAKE(500213,"密码错误"),
 
-
+    //商品模块
+    GOODSNUMS_NOT_ENOUGH(500310,"库存不足");
 
 
     private int code;

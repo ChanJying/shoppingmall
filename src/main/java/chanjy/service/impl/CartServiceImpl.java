@@ -38,4 +38,9 @@ public class CartServiceImpl implements CartService {
     public int deleteCart(int cartId) {
         return cartMapper.deleteCart(cartId);
     }
+
+    @Override
+    public int deleteCartByList(List<Integer> cartIds) {
+        return cartMapper.deleteCartByList(cartIds);
+    }
 }

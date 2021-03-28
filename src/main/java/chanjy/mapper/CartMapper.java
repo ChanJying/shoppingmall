@@ -19,4 +19,6 @@ public interface CartMapper {
     Cart queryCartByCustomerIdGoodsId(Cart cart);
 
     int deleteCart(int cartId);
+
+    int deleteCartByList(List<Integer> cartIds);
 }

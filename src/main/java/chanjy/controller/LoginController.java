@@ -38,6 +38,11 @@ public class LoginController {
         return "login";
     }
 
+    @RequestMapping("/pay")
+    public String toPay(){
+        return "pay";
+    }
+
     @RequestMapping(value = {"/index","/"})
     public String index(Model model,Customer customer){
         model.addAttribute("customer",customer);

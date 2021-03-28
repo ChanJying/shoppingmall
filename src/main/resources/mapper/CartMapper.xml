@@ -29,5 +29,13 @@
         delete from cart where cart_id = #{cartId}
     </delete>
 
+    <delete id="deleteCartByList" >
+        delete from cart
+        where cart_id in
+        <foreach collection="list" open="(" separator="," close=")" item="cartId">
+            #{cartId}
+        </foreach>
+    </delete>
+
 
 </mapper>
