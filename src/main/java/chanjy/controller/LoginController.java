@@ -35,12 +35,12 @@ public class LoginController {
 
     @RequestMapping("/login")
     public String login(){
-        return "login";
+        return "/customer/login";
     }
 
     @RequestMapping("/pay")
     public String toPay(){
-        return "pay";
+        return "/customer/pay";
     }
 
     @RequestMapping(value = {"/index","/"})
@@ -50,12 +50,12 @@ public class LoginController {
         model.addAttribute("goodsList",goodsList);
         List<Type> typeList = goodsService.queryType();
         model.addAttribute("typeList",typeList);
-        return "index";
+        return "cusindex";
     }
 
     @RequestMapping("/register")
     public String register(){
-        return "register";
+        return "/customer/register";
     }
 
     @PostMapping("/doLogin")

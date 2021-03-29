@@ -7,6 +7,7 @@ import chanjy.result.CodeMsg;
 import chanjy.service.GoodsService;
 import chanjy.service.OrderService;
 import chanjy.vo.GoodsVo;
+import chanjy.vo.OrderDetailVo;
 import chanjy.vo.OrderVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,16 @@ public class OrderServiceImpl implements OrderService {
     private GoodsService goodsService;
 
     @Override
+    public List<OrderDetailVo> selectOrderDetailByOrderId(String orderId) {
+        return orderMapper.selectOrderDetailByOrderId(orderId);
+    }
+
+    @Override
+    public int orderConfirmByOrderId(String orderId) {
+        return orderMapper.orderConfirmByOrderId(orderId);
+    }
+
+    @Override
     public List<OrderVo> selectOrderToOrderVo(int customerId) {
         return orderMapper.selectOrderToOrderVo(customerId);
     }
@@ -37,5 +48,10 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> selectOrderByCustomerId(int customerId) {
         return orderMapper.selectOrderByCustomerId(customerId);
+    }
+
+    @Override
+    public OrderVo selectOrderToOrderVoByOrderId(String orderId) {
+        return orderMapper.selectOrderToOrderVoByOrderId(orderId);
     }
 }

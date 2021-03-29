@@ -10,6 +10,7 @@ import chanjy.service.OrderService;
 import chanjy.util.UUIDUtil;
 import chanjy.vo.CartVo;
 import chanjy.vo.GoodsVo;
+import chanjy.vo.OrderDetailVo;
 import chanjy.vo.OrderVo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,10 +35,7 @@ class ShoppingMallApplicationTests {
     OrderService orderService;
     @Test
     void contextLoads() {
-        List<OrderVo> orderVos = orderService.selectOrderToOrderVo(8);
-        for (OrderVo orderVo : orderVos) {
-            System.out.println(orderVo.toString());
-        }
+        orderService.orderConfirmByOrderId("28FGES71MQ");
     }
 
 

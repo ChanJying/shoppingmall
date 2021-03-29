@@ -15,16 +15,6 @@ public class OrderVo {
         this.orderId = orderId;
     }
 
-    @Override
-    public String toString() {
-        return "OrderVo{" +
-                "customerId=" + customerId +
-                ", orderDate=" + orderDate +
-                ", orderState=" + orderState +
-                ", orderId='" + orderId + '\'' +
-                '}';
-    }
-
     public int getCustomerId() {
         return customerId;
     }

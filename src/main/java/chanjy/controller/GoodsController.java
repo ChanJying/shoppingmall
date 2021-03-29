@@ -2,7 +2,6 @@ package chanjy.controller;
 
 import chanjy.pojo.Customer;
 import chanjy.pojo.Type;
-import chanjy.result.Result;
 import chanjy.service.GoodsService;
 import chanjy.vo.GoodsVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,7 @@ public class GoodsController {
     @RequestMapping("/list")
     public String toGoodsList(Model model, Customer customer){
         model.addAttribute("customer",customer);
-        return "goodsList";
+        return "/customer/goodsList";
     }
 
     @RequestMapping("/list/{typeId}")
@@ -33,14 +32,14 @@ public class GoodsController {
         Type type = goodsService.queryTypeById(typeId);
         model.addAttribute("typeName",type.getTypeName());
         model.addAttribute("goodsList",goodsList);
-        return "goodsList";
+        return "/customer/goodsList";
     }
     @RequestMapping("/detail/{id}")
     public String getGoodsDetail(Model model,Customer customer,@PathVariable("id")int goodsId){
         model.addAttribute("customer",customer);
         GoodsVo goods = goodsService.queryGoodsById(goodsId);
         model.addAttribute("goods",goods);
-        return "goodsDetail";
+        return "/customer/goodsDetail";
     }
 
     @RequestMapping("/search/{searchName}")
@@ -48,7 +47,7 @@ public class GoodsController {
         model.addAttribute("customer",customer);
         List<GoodsVo> goodsList = goodsService.queryBySearch(searchName);
         model.addAttribute("goodsList",goodsList);
-        return "goodsList";
+        return "/customer/goodsList";
     }
 
 

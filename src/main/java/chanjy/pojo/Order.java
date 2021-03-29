@@ -11,9 +11,6 @@ public class Order {
     private int orderState;
     private String orderId;
 
-    public Order() {
-    }
-
     public Order(int id, int goodsId, int customerId, int goodsNums, Date orderDate, int orderState, String orderId) {
         this.id = id;
         this.goodsId = goodsId;
@@ -23,6 +20,11 @@ public class Order {
         this.orderState = orderState;
         this.orderId = orderId;
     }
+
+    public Order() {
+    }
+
+
 
     public int getId() {
         return id;
@@ -74,6 +76,19 @@ public class Order {
 
     public String getOrderId() {
         return orderId;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", goodsId=" + goodsId +
+                ", customerId=" + customerId +
+                ", goodsNums=" + goodsNums +
+                ", orderDate=" + orderDate +
+                ", orderState=" + orderState +
+                ", orderId='" + orderId + '\'' +
+                '}';
     }
 
     public void setOrderId(String orderId) {

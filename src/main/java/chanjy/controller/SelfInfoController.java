@@ -30,7 +30,7 @@ public class SelfInfoController {
         model.addAttribute("customer",customer);
         List<OrderVo> orderVos = orderService.selectOrderToOrderVo(customer.getId());
         model.addAttribute("orderVos",orderVos);
-        return "selfOrder";
+        return "/customer/selfOrder";
     }
 
     @RequestMapping("/selfAddress")
@@ -38,7 +38,7 @@ public class SelfInfoController {
         model.addAttribute("customer",customer);
         Address address = customerService.queryAddressByCustomerId(customer.getId());
         model.addAttribute("address",address);
-        return "selfAddress";
+        return "/customer/selfAddress";
     }
 
     @RequestMapping("/setAddress")

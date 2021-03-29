@@ -9,10 +9,7 @@ import chanjy.service.CartService;
 import chanjy.service.GoodsService;
 import chanjy.service.OrderService;
 import chanjy.util.Salt;
-import chanjy.util.UUIDUtil;
 import chanjy.vo.CartVo;
-import com.sun.org.apache.xpath.internal.operations.Bool;
-import com.sun.org.apache.xpath.internal.operations.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -94,6 +91,6 @@ public class CartController {
         model.addAttribute("customer",customer);
         List<CartVo> cartVos = cartService.queryCartByCustomerId(customer.getId());
         model.addAttribute("cartVos",cartVos);
-        return "cart";
+        return "/customer/cart";
     }
 }
