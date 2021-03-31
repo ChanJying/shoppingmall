@@ -14,8 +14,18 @@ public class OrderDetailVo {
     private String goodsImg;
     private String goodsName;
     private String goodsPrice;
+    private String username;
 
-    public OrderDetailVo(int id, int goodsId, int customerId, int goodsNums, Date orderDate, int orderState, String orderId, String goodsContent, String goodsImg, String goodsName, String goodsPrice) {
+    public String getUsername() {
+
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public OrderDetailVo(int id, int goodsId, int customerId, int goodsNums, Date orderDate, int orderState, String orderId, String goodsContent, String goodsImg, String goodsName, String goodsPrice, String username) {
         this.id = id;
         this.goodsId = goodsId;
         this.customerId = customerId;
@@ -27,6 +37,7 @@ public class OrderDetailVo {
         this.goodsImg = goodsImg;
         this.goodsName = goodsName;
         this.goodsPrice = goodsPrice;
+        this.username = username;
     }
 
     public String getGoodsPrice() {
@@ -59,6 +70,8 @@ public class OrderDetailVo {
                 ", goodsContent='" + goodsContent + '\'' +
                 ", goodsImg='" + goodsImg + '\'' +
                 ", goodsName='" + goodsName + '\'' +
+                ", goodsPrice='" + goodsPrice + '\'' +
+                ", username='" + username + '\'' +
                 '}';
     }
 

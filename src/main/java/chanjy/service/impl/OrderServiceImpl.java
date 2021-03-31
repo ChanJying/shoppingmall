@@ -9,7 +9,12 @@ import chanjy.service.OrderService;
 import chanjy.vo.GoodsVo;
 import chanjy.vo.OrderDetailVo;
 import chanjy.vo.OrderVo;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,6 +36,32 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public int orderConfirmByOrderId(String orderId) {
         return orderMapper.orderConfirmByOrderId(orderId);
+    }
+
+    @Override
+    public List<OrderDetailVo> selectAll() {
+        return orderMapper.selectAll();
+    }
+
+    @Override
+    public PageInfo<OrderDetailVo> selectAllByPage(int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<OrderDetailVo> orderDetailVos = orderMapper.selectAll();
+        PageInfo<OrderDetailVo> pageInfo = new PageInfo<>(orderDetailVos);
+        return pageInfo;
+    }
+
+    @Override
+    public int orderDeliveryByOrderId(String orderId) {
+        return orderMapper.orderDeliveryByOrderId(orderId);
+    }
+
+    @Override
+    public PageInfo<OrderDetailVo> selectAllByState(int orderState, int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<OrderDetailVo> orderDetailVos = orderMapper.selectAllByState(orderState);
+        PageInfo<OrderDetailVo> pageInfo = new PageInfo<>(orderDetailVos);
+        return pageInfo;
     }
 
     @Override

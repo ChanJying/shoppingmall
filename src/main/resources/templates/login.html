@@ -53,7 +53,7 @@
                     layer.closeAll();
                     if(data.code==0){
                         layer.msg("成功");
-                        window.location.href="/admin/index"
+                        window.location.href="/admin/orderList?pageNum=1"
                     }else {
                         layer.msg(data.msg);
                         refreshVerifyCode();

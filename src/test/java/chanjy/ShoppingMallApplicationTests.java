@@ -12,6 +12,7 @@ import chanjy.vo.CartVo;
 import chanjy.vo.GoodsVo;
 import chanjy.vo.OrderDetailVo;
 import chanjy.vo.OrderVo;
+import com.github.pagehelper.PageInfo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -35,7 +36,9 @@ class ShoppingMallApplicationTests {
     OrderService orderService;
     @Test
     void contextLoads() {
-        orderService.orderConfirmByOrderId("28FGES71MQ");
+        PageInfo<OrderDetailVo> pageInfo = orderService.selectAllByPage(2, 1);
+
+
     }
 
 

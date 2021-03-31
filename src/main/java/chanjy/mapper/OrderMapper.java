@@ -23,4 +23,10 @@ public interface OrderMapper {
     OrderVo selectOrderToOrderVoByOrderId(String orderId);
 
     int orderConfirmByOrderId(String orderId);
+
+    int orderDeliveryByOrderId(String orderId);
+
+    List<OrderDetailVo> selectAll();
+
+    List<OrderDetailVo> selectAllByState(int orderState);
 }

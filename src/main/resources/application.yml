@@ -1,5 +1,10 @@
 server:
   port: 8080
+#分页pageHelper
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
 spring:
   #thymeleaf
   thymeleaf:
