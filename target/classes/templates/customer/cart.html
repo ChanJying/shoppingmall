@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>购物车-乐购商城</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+</head>
+<body>
+<!-- start header -->
+<!--end header -->
+
+<!-- start banner_x -->
+<div class="banner_x center">
+    <a th:href="@{/index} "target="_blank"><div class="logo fl"></div></a>
+
+    <div class="wdgwc fl ml40">我的购物车</div>
+    <div class="wxts fl ml20">温馨提示：产品是否购买成功，以最终下单为准哦，请尽快结算</div>
+    <div class="dlzc fr">
+        <li><a th:href="@{/selfInfo/selfOrder}" target="_blank" th:text="'个人中心:'+${customer.username}" ></a></li>
+    </div>
+    <div class="clear"></div>
+</div>
+<div class="xiantiao"></div>
+<div class="gwcxqbj" style="height: auto">
+    <div class="gwcxd center">
+        <div class="top2 center">
+            <div class="sub_top fl">
+                <input type="checkbox" id="chooseAll" name="chooseAll" value="quanxuan" class="quanxuan" />全选
+            </div>
+            <div class="sub_top fl">商品名称</div>
+            <div class="sub_top fl">单价</div>
+            <div class="sub_top fl">数量</div>
+            <div class="sub_top fl">小计</div>
+            <div class="sub_top fr">操作</div>
+            <div class="clear"></div>
+        </div>
+        <div class="content2 center cart_item" th:each="cartVo,cartVoStat:${cartVos}" >
+            <div class="sub_content fl ">
+                <input type="checkbox" class="shop_checkbox quanxuan"id="choose" name="choose" th:value="${cartVoStat.index}" th:onclick="|changeTotalPrice('${cartVoStat.index}')|"  />
+            </div>
+
+            <input class="cartId" id="cartId" th:value="${cartVo.cartId}" type="hidden">
+            <input class="goodsId" id="goodsId" th:value="${cartVo.goodsId}" type="hidden">
+
+            <div class="sub_content fl"><img style="width: 80px;height: 80px" th:src="@{${cartVo.goodsImg}}"></div>
+            <div class="sub_content fl ft20" th:text="${cartVo.goodsContent}"></div>
+            <div class="goodsPrice sub_content fl " th:text="${cartVo.goodsPrice}"></div>
+            <div class="sub_content fl">
+                <input class="changeNums shuliang" type="number" id="changeNums" th:onchange="|changeNums('${cartVoStat.index}','${cartVos.size()}')|" th:value="${cartVo.goodsNums}" step="1" min="1" >
+            </div>
+            <div class=" sub_content fl "   ><span class="price" th:text="${cartVo.goodsPrice}*${cartVo.goodsNums}"></span></div>
+            <div class="sub_content fl" style="cursor:pointer;"><a onclick="deleteCart()">×</a></div>
+
+        </div>
+        <div class="clear"></div>
+
+    </div>
+    <div class="jiesuandan mt20 center">
+        <div class="tishi fl ml20">
+            <ul>
+                <li><a th:href="@{/index}" target="_blank">继续购物</a></li>
+                <li>|</li>
+                <li>共<span th:text="${cartVos.size()}"></span>件商品，已选择<span id="selectNum" class="selectNum">0</span>件</li>
+                <div class="clear"></div>
+            </ul>
+        </div>
+        <div class="jiesuan fr">
+            <div class="jiesuanjiage fl">合计（不含运费）：<span id="totalPrice" class="totalPrice">0.00</span><span>元</span></div>
+            <div class="jsanniu fr"><input class="jsan" type="button" name="jiesuan" onclick="account()" value="去结算"/></div>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+
+</div>
+
+
+
+
+<!-- footer -->
+<div th:replace="~{common/commons.html::footer}"></div>
+
+</body>
+<script type="text/javascript" th:src="@{/js/jquery-3.6.0.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/layer/layer.js}"></script>
+<script type="text/javascript" th:src="@{/js/common/common.js}"></script>
+
+
+<script>
+
+    function deleteCart(){
+        g_showLoading();
+        $.ajax({
+            url:"/cart/deleteCart/"+$("#cartId").val(),
+            success:function (data) {
+                layer.closeAll();
+                if(data.code==0){
+                    layer.msg("成功");
+                    location.reload();
+                }else {
+                    layer.msg(data.msg);
+                }
+            },
+            error:function () {
+                layer.closeAll();
+            }
+        })
+
+    }
+
+    $("#chooseAll").change(function () {
+        var status =$("#chooseAll").prop("checked");
+        $(".shop_checkbox").prop("checked",status);
+        if(status){
+            var total_price = 0.00;
+            var total_quantity =0;
+            $(".price").each(function () {
+                var singleTotalPrice = parseFloat($(this).text());
+                total_price +=singleTotalPrice;
+                total_quantity +=1;
+            });
+            $(".selectNum").text(total_quantity);
+            $(".totalPrice").text(total_price.toFixed(2));
+        }else {
+            $(".selectNum").text(0);
+            $(".totalPrice").text(0.00);
+        }
+    });
+
+    function changeTotalPrice(index) {
+
+        var status =  $(".shop_checkbox").eq(index).prop("checked");
+        //该商品的总价
+        var total =  $(".cart_item").eq(index).find(".price").text();
+        //选中的商品数量
+        var totalQuantity = $("#selectNum").text();
+        //已选中商品的总价
+        var formalTotalPrice = $("#totalPrice").text();
+        if(formalTotalPrice == null || formalTotalPrice == ''){
+            formalTotalPrice = 0;
+        }
+        if(totalQuantity == null || totalQuantity == ''){
+            totalQuantity = 0;
+        }
+        if(status){
+            total = (parseFloat(formalTotalPrice)+parseFloat(total)).toFixed(2);
+            totalQuantity = (parseInt(totalQuantity)+1);
+        }else {
+            $("#chooseAll").prop("checked",false);
+            total = (parseFloat(formalTotalPrice)-parseFloat(total)).toFixed(2);
+            totalQuantity = (parseInt(totalQuantity)-1);
+        }
+        $("#selectNum").text(totalQuantity);
+        $("#totalPrice").text(total);
+
+    }
+
+    function changeNums(index,size){
+        var goodsPrice =  $(".cart_item").eq(index).find(".goodsPrice").text();
+        var nums =  $(".cart_item").eq(index).find(".changeNums").val();
+        var price = (parseFloat(goodsPrice)*parseFloat(nums)).toFixed(2);
+        $(".cart_item").eq(index).find(".price").text(price)
+
+        var total = 0;
+        for(var i =0;i<size;i++){
+            if( $(".cart_item").eq(i).find(".shop_checkbox").prop("checked")){
+
+                total += parseFloat($(".cart_item").eq(i).find(".price").text())
+            }
+        }
+        $(".totalPrice").text(total.toFixed(2));
+
+    }
+
+    function account() {
+        var selectNum = $("#selectNum").text()+0;
+        if(selectNum == 0){
+            layer.msg("至少选择一件商品");
+        }else {
+            comfirm();
+        }
+    }
+
+    function comfirm() {
+        //配置一个透明的询问框
+        layer.open({
+            type: 2
+            ,title: '请支付'+$("#totalPrice").text()+'元'
+            ,area: ['550px', '600px']
+            ,shade: 0
+            ,content: '/pay'
+            ,btn: ['已支付', '取消'] //只是为了演示
+            ,yes: function(){
+                doBuy();
+            }
+            ,btn2: function(){
+                layer.closeAll();
+                layer.msg("取消购买");
+            }
+        });
+    }
+
+    function doBuy() {
+        var orderMap = {};
+        $(".shop_checkbox").each(function (index) {
+            //订单id-选择数量
+            if($(this).prop("checked")==true){
+                var goodsId=($(".goodsId").eq(index).val());
+                var goodsSum=$(".changeNums").eq(index).val();
+                var cartId = $(".cartId").eq(index).val();
+                orderMap[parseInt(goodsId)]= parseInt(goodsSum);
+            }
+        });
+        $.ajax({
+            url:"/cart/doBuy",
+            type:"POST",
+            dataType:'json',
+            contentType: 'application/json',
+            data: JSON.stringify(orderMap),
+            success:function (data) {
+                layer.closeAll();
+                if(data.code==0){
+                    layer.msg("购买成功");
+                    doDelete();
+                    window.location.href="/selfInfo/selfOrder"
+                }else {
+                    layer.msg(data.msg);
+                }
+            },
+            error:function () {
+                layer.closeAll();
+            }
+        })
+    }
+
+    function doDelete() {
+        var cartArray =[];
+        $(".shop_checkbox").each(function (index) {
+            //订单id-选择数量
+            if($(this).prop("checked")==true){
+                var cartId = $(".cartId").eq(index).val();
+                cartArray.push(parseInt(cartId));
+            }
+        });
+        $.ajax({
+            url:"/cart/doDelete",
+            type:"POST",
+            dataType:'json',
+            contentType: 'application/json',
+            data: JSON.stringify(cartArray)
+        })
+    }
+
+    function submit() {
+
+    }
+
+
+</script>
+</html>
