@@ -3,15 +3,13 @@ package chanjy;
 import chanjy.mapper.CustomerMapper;
 import chanjy.pojo.Customer;
 import chanjy.pojo.Order;
+import chanjy.pojo.Type;
 import chanjy.redis.RedisService;
 import chanjy.service.CartService;
 import chanjy.service.GoodsService;
 import chanjy.service.OrderService;
 import chanjy.util.UUIDUtil;
-import chanjy.vo.CartVo;
-import chanjy.vo.GoodsVo;
-import chanjy.vo.OrderDetailVo;
-import chanjy.vo.OrderVo;
+import chanjy.vo.*;
 import com.github.pagehelper.PageInfo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,9 +34,10 @@ class ShoppingMallApplicationTests {
     OrderService orderService;
     @Test
     void contextLoads() {
-        PageInfo<OrderDetailVo> pageInfo = orderService.selectAllByPage(2, 1);
-
-
+        List<Type> typeList = goodsService.queryType();
+        for (Type type : typeList) {
+            System.out.println(type.getId()+"+"+type.getTypeName());
+        }
     }
 
 

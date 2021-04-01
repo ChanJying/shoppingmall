@@ -97,4 +97,19 @@ public class Goods {
         this.click = click;
         this.sale = sale;
     }
+
+    @Override
+    public String toString() {
+        return "Goods{" +
+                "id=" + id +
+                ", goodsName='" + goodsName + '\'' +
+                ", goodsPrice=" + goodsPrice +
+                ", goodsContent='" + goodsContent + '\'' +
+                ", goodsImg='" + goodsImg + '\'' +
+                ", goodsNums=" + goodsNums +
+                ", typeId=" + typeId +
+                ", click=" + click +
+                ", sale=" + sale +
+                '}';
+    }
 }

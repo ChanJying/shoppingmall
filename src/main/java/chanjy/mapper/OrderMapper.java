@@ -29,4 +29,6 @@ public interface OrderMapper {
     List<OrderDetailVo> selectAll();
 
     List<OrderDetailVo> selectAllByState(int orderState);
+
+
 }

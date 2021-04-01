@@ -8,6 +8,7 @@
 <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" >
 <link rel="stylesheet" th:href="@{/css/materialdesignicons.min.css}" >
 <link rel="stylesheet" th:href="@{/css/style.min.css}" >
+
 </head>
   
 <body>
@@ -25,6 +26,8 @@
         <nav class="sidebar-main">
           <ul class="nav nav-drawer">
             <li class="nav-item active"> <a th:href="@{/admin/orderList(pageNum=1)}"><i class="mdi mdi-home"></i> 用户订单</a> </li>
+            <li class="nav-item "><a th:href="@{/goods/admin/goodsList(pageNum=1)}"><i class="mdi mdi-format-align-justify"></i> 商品列表</a></li>
+            <li class="nav-item"><a th:href="@{/goods/admin/goodsType}"><i class="mdi mdi-format-align-justify"></i> 商品类别</a></li>
           </ul>
         </nav>
         
@@ -58,11 +61,8 @@
                 <span>笔下光年 <span class="caret"></span></span>
               </a>
               <ul class="dropdown-menu dropdown-menu-right">
-                <li> <a href="lyear_pages_profile.html"><i class="mdi mdi-account"></i> 个人信息</a> </li>
-                <li> <a href="lyear_pages_edit_pwd.html"><i class="mdi mdi-lock-outline"></i> 修改密码</a> </li>
-                <li> <a href="javascript:void(0)"><i class="mdi mdi-delete"></i> 清空缓存</a></li>
                 <li class="divider"></li>
-                <li> <a href="lyear_pages_login.html"><i class="mdi mdi-logout-variant"></i> 退出登录</a> </li>
+                <li> <a th:href="@{/admin/login}"><i class="mdi mdi-logout-variant"></i> 退出登录</a> </li>
               </ul>
             </li>
             <!--切换主题配色-->
@@ -238,19 +238,19 @@
                   </table>
                   <div class="form-group has-success">
                     <label class="col-xs-12" >用户名</label>
-                    <div class="col-xs-4">
+                    <div class="col-xs-3">
                       <input class="form-control" type="text" th:value="${address.consignee}" readonly>
                     </div>
                   </div>
                   <div class="form-group has-success">
                     <label class="col-xs-12" >用户地址</label>
-                    <div class="col-xs-4">
+                    <div class="col-xs-3">
                       <input class="form-control" type="text" th:value="${address.address}" readonly>
                     </div>
                   </div>
                   <div class="form-group has-success">
                     <label class="col-xs-12">手机号</label>
-                    <div class="col-xs-4">
+                    <div class="col-xs-3">
                       <input class="form-control" type="text" th:value="${address.phone}" readonly>
                     </div>
                   </div>
@@ -286,8 +286,7 @@
 <script type="text/javascript" th:src="@{/js/perfect-scrollbar.min.js}"></script>
 <script type="text/javascript" th:src="@{/js/main.min.js}"></script>
 <script type="text/javascript" th:src="@{/js/layer/layer.js}"></script>
-<!--图表插件-->
-<script type="text/javascript" th:src="@{/js/Chart.js}"></script>
+
 
 <script type="text/javascript">
  function delivery() {

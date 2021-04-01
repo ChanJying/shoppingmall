@@ -4,10 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
 <title>后台管理系统</title>
+<link rel="icon" href="favicon.ico" type="image/ico">
 <meta name="author" content="chan">
-<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" >
-<link rel="stylesheet" th:href="@{/css/materialdesignicons.min.css}" >
-<link rel="stylesheet" th:href="@{/css/style.min.css}" >
+<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+<link th:href="@{/css/materialdesignicons.min.css}" rel="stylesheet">
+<link th:href="@{/css/style.min.css}" rel="stylesheet">
 </head>
   
 <body>
@@ -15,24 +16,23 @@
   <div class="lyear-layout-container">
     <!--左侧导航-->
     <aside class="lyear-layout-sidebar">
-      
+       
       <!-- logo -->
       <div id="logo" class="sidebar-header">
-        <a th:href="@{/admin/index}"><img th:src="@{/images/logo-sidebar.png}" title="LightYear" alt="LightYear" /></a>
+        <a th:href="@{/admin/orderList(pageNum=1)}" ><img th:src="@{/images/logo-sidebar.png}" title="LightYear" alt="LightYear" /></a>
       </div>
-      <div class="lyear-layout-sidebar-scroll"> 
-        
+      <div class="lyear-layout-sidebar-scroll">
+
         <nav class="sidebar-main">
           <ul class="nav nav-drawer">
-            <li class="nav-item active"> <a th:href="@{/admin/orderList(pageNum=1)}"><i class="mdi mdi-home"></i> 用户订单</a> </li>
-            <li class="nav-item "><a th:href="@{/goods/admin/goodsList(pageNum=1)}"><i class="mdi mdi-format-align-justify"></i> 商品列表</a></li>
-            <li class="nav-item"><a th:href="@{/goods/admin/goodsType}"><i class="mdi mdi-format-align-justify"></i> 商品类别</a></li>
+            <li class="nav-item "> <a th:href="@{/admin/orderList(pageNum=1)}"><i class="mdi mdi-home"></i> 用户订单</a> </li>
+            <li class="nav-item active"><a th:href="@{/goods/admin/goodsList(pageNum=1)}"><i class="mdi mdi-format-align-justify"></i> 商品列表</a></li>
+            <li class="nav-item "><a th:href="@{/goods/admin/goodsType}"><i class="mdi mdi-format-align-justify"></i> 商品类别</a></li>
           </ul>
         </nav>
         
         <div class="sidebar-footer">
           <p class="copyright">15322269017@163.com</p>
-
         </div>
       </div>
       
@@ -51,7 +51,7 @@
               <span class="lyear-toggler-bar"></span>
               <span class="lyear-toggler-bar"></span>
             </div>
-            <span class="navbar-page-title"> 用户订单 </span>
+            <span class="navbar-page-title"> 商品列表 </span>
           </div>
           
           <ul class="topbar-right">
@@ -201,87 +201,85 @@
     
     <!--页面主要内容-->
     <main class="lyear-layout-content">
-
+      
       <div class="container-fluid">
-
+        
         <div class="row">
           <div class="col-lg-12">
             <div class="card">
               <div class="card-toolbar clearfix">
+
                 <div class="toolbar-btn-action">
-                  <a class="btn btn-primary m-r-5" th:href="@{/admin/orderList(pageNum=1)}"><i class="mdi "></i>全部订单</a>
-                  <a class="btn btn-success m-r-5" th:href="@{/admin/orderState/0(pageNum=1)}"><i class="mdi "></i>未发货</a>
-                  <a class="btn btn-warning m-r-5" th:href="@{/admin/orderState/1(pageNum=1)}"><i class="mdi "></i>已发货</a>
-                  <a class="btn btn-danger" th:href="@{/admin/orderState/2(pageNum=1)}"><i class="mdi "></i>已完成</a>
+                  <a class="btn btn-primary m-r-5" th:href="@{/goods/admin/addGoods}"><i class="mdi mdi-plus"></i> 入库</a>
                 </div>
               </div>
               <div class="card-body">
-
+                
                 <div class="table-responsive">
                   <table class="table table-bordered">
                     <thead>
-                    <tr>
-                      <th>用户</th>
-                      <th>订单号</th>
-                      <th>时间</th>
-                      <th>状态</th>
-                      <th>详情</th>
-                    </tr>
+                      <tr>
+                        <th>商品图片</th>
+                        <th>商品名称</th>
+                        <th>商品介绍</th>
+                        <th>商品数量</th>
+                        <th>商品价格</th>
+                        <th>商品状态</th>
+                        <th>商品类别</th>
+                        <th>操作</th>
+
+                      </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="orderDetail:${orderDetailVos}">
-                      <td th:text="${orderDetail.username}">1</td>
-                      <td th:text="${orderDetail.orderId}"></td>
-                      <td th:text="${#dates.format(orderDetail.orderDate,'yyyy-MM-dd HH:mm')}"></td>
-                      <td th:if="${orderDetail.orderState eq 0}">未发货</td>
-                      <td th:if="${orderDetail.orderState eq 1}">未收货</td>
-                      <td th:if="${orderDetail.orderState eq 2}">已完成</td>
-                      <td><a th:href="@{/admin/orderDetail/(orderId=${orderDetail.orderId},customerId=${orderDetail.customerId})}">订单详情</a></td>
-
-                    </tr>
-
-
+                      <tr th:each="goodsListVo:${goodsListVos}">
+                        <td width="100px"><img style="width: 100px;height: 100px;" th:src="@{${goodsListVo.goodsImg}}"></td>
+                        <td th:text="${goodsListVo.goodsName}"></td>
+                        <td th:text="${goodsListVo.goodsContent}"></td>
+                        <td th:text="${goodsListVo.goodsNums}"></td>
+                        <td th:text="${goodsListVo.goodsPrice}"></td>
+                        <td th:if="${goodsListVo.sale eq 1}">上架</td>
+                        <td th:if="${goodsListVo.sale eq 0}">下架</td>
+                        <td th:text="${goodsListVo.typeName}"></td>
+                        <td><a th:href="@{'/goods/admin/goodsDetail/'+${goodsListVo.id}}">商品详情</a></td>
+                      </tr>
 
                     </tbody>
                   </table>
                 </div>
                 <ul class="pagination">
-                  <li  th:if="${pageInfo.hasPreviousPage}"><a th:href="'/admin/orderState/'+${orderState}+'?pageNum='+${pageInfo.prePage}">«</a></li>
+                  <li  th:if="${pageInfo.hasPreviousPage}"><a th:href="'/goods/admin/goodsList?pageNum='+${pageInfo.prePage}">«</a></li>
                   <li  th:unless="${pageInfo.hasPreviousPage}" class="disabled"><span>«</span></li>
                   <li  th:each="nav:${pageInfo.navigatepageNums}" >
-                    <a th:href="@{'/admin/orderState/'+${orderState}+'?pageNum='+${nav}}" th:text="${nav}" th:if="${nav != pageInfo.pageNum}" ></a>
+                    <a th:href="@{'/goods/admin/goodsList?pageNum='+${nav}}" th:text="${nav}" th:if="${nav != pageInfo.pageNum}" ></a>
                     <span style="font-weight: bold;background: #6faed9;" th:if="${nav == pageInfo.pageNum}" th:text="${nav}" ></span>
                   </li>
                   <li th:if="${pageInfo.hasNextPage}">
-                    <a th:href="'/admin/orderState/'+${orderState}+'?pageNum='+${pageInfo.nextPage}">»</a>
+                    <a th:href="'/goods/admin/goodsList?pageNum='+${pageInfo.nextPage}">»</a>
                   </li>
                   <li th:unless="${pageInfo.hasNextPage}" class="disabled">
                     <a>»</a>
                   </li>
                 </ul>
-
+       
               </div>
             </div>
           </div>
-
+          
         </div>
-
+        
       </div>
-
+      
     </main>
     <!--End 页面主要内容-->
   </div>
 </div>
-</body>
+
 <script type="text/javascript" th:src="@{/js/jquery-3.6.0.min.js}"></script>
 <script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
 <script type="text/javascript" th:src="@{/js/perfect-scrollbar.min.js}"></script>
 <script type="text/javascript" th:src="@{/js/main.min.js}"></script>
-<!--图表插件-->
-<script type="text/javascript" th:src="@{/js/Chart.js}"></script>
-
 <script type="text/javascript">
 
 </script>
-
+</body>
 </html>

@@ -45,8 +45,44 @@
         update  goods set goods_nums = goods_nums - #{goodsNums} where  id = #{id}
     </update>
 
+    <select id="selectAllToVo" resultType="GoodsListVo">
+        select g.id,g.goods_name,g.goods_price,g.goods_content,g.goods_img,g.goods_nums,g.sale,t.type_name
+        from goods g join type t
+        on g.type_id = t.id
+    </select>
+
+    <select id="selectAllToVoByGoodsId" parameterType="int" resultType="GoodsListVo">
+        select g.id,g.goods_name,g.goods_price,g.goods_content,g.goods_img,g.goods_nums,g.sale,t.type_name
+        from goods g join type t
+        on g.type_id = t.id
+        where g.id = #{goodsId}
+    </select>
 
 
+    <update id="updateGoods" parameterType="Goods" >
+        update goods
+        set goods_name = #{goodsName},goods_price = #{goodsPrice},
+        goods_content=#{goodsContent},goods_img=#{goodsImg},goods_nums = #{goodsNums},
+        type_id = #{typeId},sale = #{sale}
+        where  id = #{id}
+    </update>
+
+    <insert id="insertGoods" parameterType="Goods" >
+        insert into goods(goods_name,goods_price,goods_content,goods_img,goods_nums,type_id,sale)
+        values(#{goodsName},#{goodsPrice},#{goodsContent},#{goodsImg},#{goodsNums},#{typeId},#{sale})
+    </insert>
+
+    <update id="updateGoodsType"  >
+        update  `type` set type_name =  #{typeName} where  id = #{id}
+    </update>
+
+    <delete id="deleteGoodsType" parameterType="int" >
+        delete from `type` where  id = #{id}
+    </delete>
+
+    <insert id="insertGoodsType" parameterType="String">
+        insert into `type`(type_name) values(#{typeName})
+    </insert>
 
 
 

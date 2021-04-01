@@ -1,5 +1,12 @@
 server:
   port: 8080
+#阿里云
+oos:
+  endpoint: oss-cn-guangzhou.aliyuncs.com
+  accessKeyId: LTAI5tMKh34sE4LaWuiDMosF
+  bucketName: chanjy
+  accessKeySecret: ROUtNX5BWLmKvXAsavFxU02tEySzYO
+  filedir: images/
 #分页pageHelper
 pagehelper:
   helper-dialect: mysql

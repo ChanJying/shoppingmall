@@ -12,7 +12,8 @@ public enum CodeMsg {
     PASSWORD_MISTAKE(500213,"密码错误"),
     ADMIN_NOT_EXIST(500220,"验证错误"),
     //商品模块
-    GOODSNUMS_NOT_ENOUGH(500310,"库存不足");
+    GOODSNUMS_NOT_ENOUGH(500310,"库存不足"),
+    TYPE_HAS_GOODS(500311,"该类别下有商品");
 
 
     private int code;
