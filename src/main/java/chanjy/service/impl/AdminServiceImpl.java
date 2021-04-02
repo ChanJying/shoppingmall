@@ -6,13 +6,34 @@ import chanjy.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AdminServiceImpl implements AdminService {
     @Autowired
     private AdminMapper adminMapper;
 
     @Override
-    public Admin selectAdmin(Admin admin) {
-        return adminMapper.selectAdmin(admin);
+    public int updateAdmin(Admin admin) {
+        return adminMapper.updateAdmin(admin);
+    }
+
+    @Override
+    public int deleteAdmin(int id) {
+        return adminMapper.deleteAdmin(id);
+    }
+
+    @Override
+    public int insertAdmin(Admin admin) {
+        return adminMapper.insertAdmin(admin);
+    }
+
+    @Override
+    public Admin selectAdmin(String account,String password) {
+        return adminMapper.selectAdmin(account,password);
+    }
+
+    public List<Admin> selectAdminByRole(){
+        return adminMapper.selectAdminByRole();
     }
 }

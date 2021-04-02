@@ -57,8 +57,8 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public int updateGoodsType(int id, String typeName) {
-        return goodsMapper.updateGoodsType(id,typeName);
+    public int updateGoodsType(Type type) {
+        return goodsMapper.updateGoodsType(type);
     }
 
     @Override

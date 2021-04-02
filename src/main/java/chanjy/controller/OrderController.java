@@ -2,6 +2,7 @@ package chanjy.controller;
 
 
 import chanjy.pojo.Address;
+import chanjy.pojo.AdminRole;
 import chanjy.pojo.Customer;
 import chanjy.result.Result;
 import chanjy.service.CustomerService;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Iterator;
 import java.util.List;
 
@@ -49,7 +51,9 @@ public class OrderController {
 
 
     @RequestMapping("/admin/orderList")
-    public String getAllOrder(Model model, @RequestParam(value = "pageNum") int pageNum){
+    public String getAllOrder(Model model, @RequestParam(value = "pageNum") int pageNum, HttpServletRequest request){
+        AdminRole adminRole = (AdminRole)request.getSession().getAttribute("admin");
+        model.addAttribute("adminRole",adminRole);
         PageInfo<OrderDetailVo> pageInfo = orderService.selectAllByPage(pageNum, 10);
         model.addAttribute("pageInfo",pageInfo);
         List<OrderDetailVo> orderDetailVos = pageInfo.getList();
@@ -59,7 +63,9 @@ public class OrderController {
 
     @RequestMapping("/admin/orderState/{orderState}")
     public String getAllOrder(Model model,@PathVariable("orderState")int orderState,
-                              @RequestParam(value = "pageNum") int pageNum){
+                              @RequestParam(value = "pageNum") int pageNum,HttpServletRequest request){
+        AdminRole adminRole = (AdminRole)request.getSession().getAttribute("admin");
+        model.addAttribute("adminRole",adminRole);
         PageInfo<OrderDetailVo> pageInfo = orderService.selectAllByState(orderState,pageNum, 10);
         model.addAttribute("pageInfo",pageInfo);
         List<OrderDetailVo> orderDetailVos = pageInfo.getList();
@@ -70,7 +76,9 @@ public class OrderController {
 
     @RequestMapping("/admin/orderDetail")
     public String getOrderDetail(Model model,@RequestParam(value = "orderId")String orderId,
-                                 @RequestParam(value = "customerId")int customerId){
+                                 @RequestParam(value = "customerId")int customerId,HttpServletRequest request){
+        AdminRole adminRole = (AdminRole)request.getSession().getAttribute("admin");
+        model.addAttribute("adminRole",adminRole);
         List<OrderDetailVo> orderDetailVos = orderService.selectOrderDetailByOrderId(orderId);
         OrderVo orderVo = orderService.selectOrderToOrderVoByOrderId(orderId);
         Address address = customerService.queryAddressByCustomerId(customerId);

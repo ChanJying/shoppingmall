@@ -1,6 +1,6 @@
 package chanjy.pojo;
 
-public class Admin {
+public class AdminRole {
     private int id;
     private String account;
     private String password;
@@ -38,10 +38,10 @@ public class Admin {
         this.role = role;
     }
 
-    public Admin() {
+    public AdminRole() {
     }
 
-    public Admin(int id, String account, String password, int role) {
+    public AdminRole(int id, String account, String password, int role) {
         this.id = id;
         this.account = account;
         this.password = password;
@@ -50,7 +50,7 @@ public class Admin {
 
     @Override
     public String toString() {
-        return "Admin{" +
+        return "AdminRole{" +
                 "id=" + id +
                 ", account='" + account + '\'' +
                 ", password='" + password + '\'' +

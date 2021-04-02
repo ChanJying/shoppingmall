@@ -27,7 +27,8 @@
                     <ul class="nav nav-drawer">
                         <li class="nav-item "> <a th:href="@{/admin/orderList(pageNum=1)}"><i class="mdi mdi-home"></i> 用户订单</a> </li>
                         <li class="nav-item "><a th:href="@{/goods/admin/goodsList(pageNum=1)}"><i class="mdi mdi-format-align-justify"></i> 商品列表</a></li>
-                        <li class="nav-item active"><a th:href="@{/goods/admin/goodsType}"><i class="mdi mdi-format-align-justify"></i> 商品类别</a></li>
+                        <li class="nav-item active"><a th:href="@{/goods/admin/goodsType}"><i class="mdi mdi-menu"></i> 商品类别</a></li>
+                        <li class="nav-item" th:if="${adminRole.role==1}"><a th:href="@{/admin/adminList}"><i class="mdi mdi-menu"></i> 管理员</a></li>
                     </ul>
                 </nav>
 
@@ -57,11 +58,11 @@
                     <ul class="topbar-right">
                         <li class="dropdown dropdown-profile">
                             <a href="javascript:void(0)" data-toggle="dropdown">
-                                <span>笔下光年 <span class="caret"></span></span>
+                                <span th:text="${adminRole.account}"> <span class="caret"></span></span>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-right">
                                 <li class="divider"></li>
-                                <li> <a href="lyear_pages_login.html"><i class="mdi mdi-logout-variant"></i> 退出登录</a> </li>
+                                <li> <a th:href="@{/admin}"><i class="mdi mdi-logout-variant"></i> 退出登录</a> </li>
                             </ul>
                         </li>
                         <!--切换主题配色-->
@@ -202,57 +203,56 @@
         <!--页面主要内容-->
         <main class="lyear-layout-content">
 
-            <div class="container-fluid">
+        <div class="container-fluid">
 
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="card">
-                            <div class="card-toolbar clearfix" >
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-toolbar clearfix" >
 
-                                <div class="toolbar-btn-action" >
-
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered" >
-                                        <thead>
-                                        <tr>
-                                            <th>类别ID</th>
-                                            <th>类别名称</th>
-                                            <th>操作</th>
-
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr th:each="type:${typeList}">
-                                            <td th:text="${type.id}"></td>
-                                            <td ><input style="border:none;text-align:center;" th:value="${type.typeName}"></td>
-                                            <td>
-                                            <div class="btn-group">
-                                                <div style="float: left" onclick="insertGoodsType()"><a class="btn btn-xs btn-default"  title="修改" data-toggle="tooltip"><i class="mdi mdi-pencil"></i></a></div>
-                                                <div style="float: left"><a class="btn btn-xs btn-default" th:href="@{/goods/deleteGoodsType(id=${type.id})}" title="删除" data-toggle="tooltip"><i class="mdi mdi-window-close"></i></a></div>
-                                            </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>添加类别</td>
-                                            <td><input id="typeName" style="border:none;text-align:center;" ></td>
-                                            <td><div onclick="insertGoodsType()"><a class="btn btn-primary m-r-5" ><i class="mdi mdi-plus"></i> 添加</a></div></td>
-                                        </tr>
-
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                                </div>
-
+                            <div class="toolbar-btn-action" >
 
                             </div>
                         </div>
-                    </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" >
+                                    <thead>
+                                    <tr>
+                                        <th>类别ID</th>
+                                        <th>类别名称</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr class="typeClass" th:each="type:${typeList}">
+                                        <td class="typeId" th:text="${type.id}"></td>
+                                        <td ><input class="typeName" style="border:none;text-align:center;" th:value="${type.typeName}"></td>
+                                        <td>
+                                        <div class="btn-group">
+                                            <div style="float: left" th:onclick="|updateGoodsType('${typeStat.index}')|"><a class="btn btn-xs btn-default"  title="修改" data-toggle="tooltip"><i class="mdi mdi-pencil"></i></a></div>
+                                            <div style="float: left" th:onclick="|deleteGoodsType('${typeStat.index}')|"><a class="btn btn-xs btn-default"  title="删除" data-toggle="tooltip"><i class="mdi mdi-window-close"></i></a></div>
+                                        </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>添加类别</td>
+                                        <td><input id="typeName" style="border:none;text-align:center;" ></td>
+                                        <td><div onclick="insertGoodsType()"><a class="btn btn-primary m-r-5" ><i class="mdi mdi-plus"></i> 添加</a></div></td>
+                                    </tr>
 
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            </div>
+
+
+                        </div>
+                    </div>
                 </div>
+
+            </div>
 
 
 
@@ -267,6 +267,54 @@
 <script type="text/javascript" th:src="@{/js/main.min.js}"></script>
 <script type="text/javascript" th:src="@{/js/layer/layer.js}"></script>
 <script type="text/javascript">
+function updateGoodsType(index) {
+
+    var typeId = $(".typeClass").eq(index).find(".typeId").text();
+    var typeName = $(".typeClass").eq(index).find(".typeName").val();
+    $.ajax({
+        url: "/goods/updateGoodsType",
+        type: "get",
+        data:{
+            id:typeId,
+            typeName:typeName
+        },
+        success:function (data) {
+            layer.closeAll();
+            if(data.code==0){
+                layer.msg("修改成功");
+                window.location.reload();
+            }else {
+                layer.msg(data.msg);
+            }
+        },
+        error:function () {
+            layer.closeAll();
+        }
+    })
+}
+function deleteGoodsType(index) {
+
+    var typeId = $(".typeClass").eq(index).find(".typeId").text();
+    $.ajax({
+        url: "/goods/deleteGoodsType",
+        type: "get",
+        data:{
+            id:typeId
+        },
+        success:function (data) {
+            layer.closeAll();
+            if(data.code==0){
+                layer.msg("删除成功");
+                window.location.reload();
+            }else {
+                layer.msg(data.msg);
+            }
+        },
+        error:function () {
+            layer.closeAll();
+        }
+    })
+}
 function insertGoodsType() {
     var typeName = $("#typeName").val();
     $.ajax({

@@ -6,8 +6,24 @@
 <!--绑定接口-->
 <mapper namespace="chanjy.mapper.AdminMapper">
 
-<select id="selectAdmin" parameterType="Admin" resultType="Admin">
-    select * from admin where account = #{account} and password = #{password}
+<select id="selectAdmin" resultType="Admin">
+    select * from `admin` where account = #{account} and password = #{password}
 </select>
+
+    <select id="selectAdminByRole"  resultType="Admin">
+    select * from `admin` where role = 0
+</select>
+
+    <update id="updateAdmin" >
+        update `admin` set account = #{account},password = #{password} where id = #{id}
+    </update>
+
+    <delete id="deleteAdmin">
+        delete from `admin` where id = #{id}
+    </delete>
+
+    <insert id="insertAdmin">
+        insert into admin(account,password) values (#{account},#{password})
+    </insert>
 
 </mapper>

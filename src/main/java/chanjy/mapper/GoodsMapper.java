@@ -35,7 +35,7 @@ public interface GoodsMapper {
 
     int insertGoods(Goods goods);
 
-    int updateGoodsType(@Param("id")int id,@Param("typeName")String typeName);
+    int updateGoodsType(Type type);
 
     int deleteGoodsType(int id);
 

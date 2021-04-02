@@ -88,6 +88,7 @@ public class CartController {
 
     @RequestMapping("/toCart")
     public String toCart(Model model, Customer customer){
+        if(customer==null) return "/customer/login";
         model.addAttribute("customer",customer);
         List<CartVo> cartVos = cartService.queryCartByCustomerId(customer.getId());
         model.addAttribute("cartVos",cartVos);

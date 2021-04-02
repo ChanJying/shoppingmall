@@ -34,7 +34,7 @@ public interface GoodsService {
 
     int insertGoods(Goods goods);
 
-    int updateGoodsType(int id,String typeName);
+    int updateGoodsType(Type type);
 
     int deleteGoodsType(int id);
 
