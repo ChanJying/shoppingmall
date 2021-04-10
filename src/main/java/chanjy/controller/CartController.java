@@ -1,11 +1,14 @@
 package chanjy.controller;
 
 
-import chanjy.pojo.Cart;
-import chanjy.pojo.Customer;
-import chanjy.pojo.Order;
+import chanjy.exception.GlobalException;
+import chanjy.mapper.CustomerMapper;
+import chanjy.mapper.GoodsMapper;
+import chanjy.pojo.*;
+import chanjy.result.CodeMsg;
 import chanjy.result.Result;
 import chanjy.service.CartService;
+import chanjy.service.CustomerService;
 import chanjy.service.GoodsService;
 import chanjy.service.OrderService;
 import chanjy.util.Salt;
@@ -26,6 +29,7 @@ import java.util.Map;
 @Controller
 public class CartController {
 
+
     @Autowired
     private CartService cartService;
 
@@ -35,10 +39,15 @@ public class CartController {
     @Autowired
     private GoodsService goodsService;
 
+    @Autowired
+    private CustomerService customerService;
+
 
     @RequestMapping("/doBuy")
     @ResponseBody
     public Result<Boolean> doBuy(@RequestBody Map<Integer,Integer> orderMap, Customer customer)  {
+        Address address = customerService.queryAddressByCustomerId(customer.getId());
+        if(address==null) throw  new GlobalException(CodeMsg.ADDRESS_NOT_EXIST);
         Order order = new Order();
         order.setCustomerId(customer.getId());
         order.setOrderId(Salt.getOrderId());
@@ -50,8 +59,6 @@ public class CartController {
            orderService.addOrder(order);
            goodsService.updateGoodsNums(entry.getKey(),entry.getValue());
         }
-
-
         return Result.success(true);
     }
 

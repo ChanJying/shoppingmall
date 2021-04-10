@@ -9,7 +9,7 @@
     <select id="queryGoodsByLimit"  resultType="GoodsVo">
         select id,goods_name,goods_price,goods_content,goods_img,goods_nums
         from goods
-        where sale = 1
+        where sale = 1 and goods_nums !=0
         order by click desc
         Limit 10;
     </select>
@@ -17,7 +17,7 @@
     <select id="queryGoodsByType"  parameterType="int" resultType="GoodsVo">
         select id,goods_name,goods_price,goods_content,goods_img,goods_nums
         from goods g
-        where type_id = #{typeId};
+        where type_id = #{typeId}  and goods_nums !=0  and sale = 1;
     </select>
 
     <select id="queryGoodsById"  parameterType="int" resultType="GoodsVo">
@@ -32,7 +32,7 @@
     <select id="queryTypeById"  parameterType="int" resultType="Type">
         select *
         from `type`
-        where id = #{id} ;
+        where id = #{id}  ;
     </select>
 
     <select id="queryBySearch" parameterType="String" resultType="GoodsVo">
@@ -55,7 +55,7 @@
         select g.id,g.goods_name,g.goods_price,g.goods_content,g.goods_img,g.goods_nums,g.sale,t.type_name
         from goods g join `type` t
         on g.type_id = t.id
-        where g.id = #{goodsId}
+        where g.id = #{goodsId} and g.sale = 1 and g.goods_nums != 0
     </select>
 
 

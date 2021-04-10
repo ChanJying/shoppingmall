@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>个人中心-乐购商城</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" >
+    <script type="text/javascript" th:src="@{/js/jquery-3.6.0.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/common/common.js}"></script>
+    <script type="text/javascript" th:src="@{/js/layer/layer.js}"></script>
+</head>
+<body>
+<!-- start header -->
+<header>
+    <div th:replace="~{common/commons.html::topbar}"></div>
+</header>
+<!--end header -->
+<!-- start banner_x -->
+<div th:replace="~{common/commons.html::search}"></div>
+<!-- end banner_x -->
+<!-- self_info -->
+<div class="grzxbj">
+    <div class="selfinfo center" style="height: auto">
+        <div class="lfnav fl">
+            <div class="ddzx">个人中心</div>
+            <div class="subddzx">
+                <ul>
+                    <li><a th:href="@{/selfInfo/selfOrder}" >我的订单</a></li>
+                    <li><a thre="" style="color:#ff6700;font-weight:bold;">个人收藏</a></li>
+                    <li><a th:href="@{/selfInfo/selfAddress}">收货地址</a></li>
+                </ul>
+            </div>
+
+        </div>
+        <div class="rtcont fr" style="height: auto">
+            <div class="ddzxbt">收藏</div>
+            <div class="ddxq collect"  th:each="collectVo:${collectVos}">
+                <div class="ddspt fl"><img style="width: 80px;height: 80px"  th:src="@{${collectVo.goodsImg}}" alt=""></div>
+                <div class="ddbh fl"><span th:text="${collectVo.goodsContent}" ></span></div>
+                <div class="ztxx fr">
+                    <input class="collectId" type="hidden" th:value="${collectVo.id}">
+                    <ul >
+                        <li th:text="${collectVo.goodsName}"></li>
+                        <li  th:text="${collectVo.goodsPrice}+'元'"></li>
+                        <li  ><span th:onclick="|isCollect('${collectVoStat.index}')|"><a>取消收藏</a></span></li>
+                        <li><a target="_blank" th:href="@{'/goods/detail/'+${collectVo.goodsId}}">商品详情></a></li>
+                        <div class="clear"></div>
+                    </ul>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+<!-- self_info -->
+
+<div th:replace="~{common/commons.html::footer}"></div>
+</body>
+<script type="text/javascript" th:src="@{/js/jquery-3.6.0.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/layer/layer.js}"></script>
+<script type="text/javascript" th:src="@{/js/common/common.js}"></script>
+<script>
+    function isCollect(index) {
+        g_showLoading();
+        var collectId = $(".collect").eq(index).find(".collectId").val();
+        $.ajax({
+            url:"/collect/deleteCollectId/"+collectId,
+            success:function (data) {
+                layer.closeAll();
+                if(data.code==0){
+                    layer.msg("取消成功");
+                    location.reload();
+                }else {
+                    layer.msg(data.msg);
+                    location.reload();
+                }
+            },
+            error:function () {
+                layer.closeAll();
+            }
+        })
+
+    }
+
+</script>
+</html>

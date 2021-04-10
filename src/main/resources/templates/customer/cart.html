@@ -91,7 +91,7 @@
     function deleteCart(){
         g_showLoading();
         $.ajax({
-            url:"/cart/deleteCart/"+$("#cartId").val(),
+            url:"/cart/deleteCollectId/"+$("#cartId").val(),
             success:function (data) {
                 layer.closeAll();
                 if(data.code==0){

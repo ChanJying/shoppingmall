@@ -1,12 +1,10 @@
 package chanjy.controller;
 
 import chanjy.exception.GlobalException;
-import chanjy.pojo.AdminRole;
-import chanjy.pojo.Customer;
-import chanjy.pojo.Goods;
-import chanjy.pojo.Type;
+import chanjy.pojo.*;
 import chanjy.result.CodeMsg;
 import chanjy.result.Result;
+import chanjy.service.CollectService;
 import chanjy.service.GoodsService;
 import chanjy.vo.GoodsListVo;
 import chanjy.vo.GoodsVo;
@@ -30,6 +28,8 @@ public class GoodsController {
     @Autowired
     private GoodsService goodsService;
 
+    @Autowired
+    private CollectService collectService;
 
 
     @RequestMapping("/list")
@@ -53,6 +53,8 @@ public class GoodsController {
     public String getGoodsDetail(Model model,Customer customer,@PathVariable("id")int goodsId){
         if(customer==null) return "/customer/login";
         model.addAttribute("customer",customer);
+        Collect collect = collectService.queryCollectByCIdAndGId(new Collect(customer.getId(), goodsId));
+        model.addAttribute("collect",collect);
         GoodsVo goods = goodsService.queryGoodsById(goodsId);
         model.addAttribute("goods",goods);
         return "/customer/goodsDetail";

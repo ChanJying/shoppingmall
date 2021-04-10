@@ -11,9 +11,17 @@ public enum CodeMsg {
     ACCOUNT_NOT_EXIST(500212,"用户不存在"),
     PASSWORD_MISTAKE(500213,"密码错误"),
     ADMIN_NOT_EXIST(500220,"验证错误"),
+
     //商品模块
     GOODSNUMS_NOT_ENOUGH(500310,"库存不足"),
-    TYPE_HAS_GOODS(500311,"该类别下有商品");
+    TYPE_HAS_GOODS(500311,"该类别下有商品"),
+
+    //用户模块
+    ADDRESS_NOT_EXIST(500410,"请前往个人中心填写地址"),
+
+    //收藏模块
+    COLLECT_EXIST(500510,"该商品已收藏"),
+    COLLECT_NOT_EXIST(500510,"该商品未收藏");
 
 
     private int code;

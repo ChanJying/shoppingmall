@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--绑定接口-->
+<mapper namespace="chanjy.mapper.CollectMapper">
+
+    <select id="queryCollectByCustomerId" parameterType="int" resultType="CollectVo">
+        select c.id,c.customer_id,c.goods_id,g.goods_content,g.goods_name,
+                g.goods_price,g.goods_img
+        from collect c join goods g
+        on c.goods_id = g.id
+        where c.customer_id = #{customerId}
+    </select>
+
+    <insert id="addCollect" parameterType="Collect">
+        insert into collect(customer_Id,goods_Id) values (#{customerId},#{goodsId})
+    </insert>
+
+    <delete id="deleteCollect" parameterType="Collect">
+        delete from collect where customer_id = #{customerId} and goods_id = #{goodsId}
+    </delete>
+
+    <delete id="deleteCollectByCollectId" parameterType="int">
+        delete from collect where id = #{collectId}
+    </delete>
+
+    <select id="queryCollectByCollectId" parameterType="int" resultType="Collect">
+        select * from collect where id = #{collectId}
+    </select>
+
+    <select id="queryCollectByCIdAndGId"  resultType="Collect">
+        select * from collect where customer_id = #{customerId} and goods_id = #{goodsId}
+    </select>
+
+
+</mapper>
