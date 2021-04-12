@@ -50,17 +50,11 @@ public class OssUtil {
         try {
             InputStream inputStream = file.getInputStream();
             this.uploadFile2OSS(inputStream, name);
-            return name;//RestResultGenerator.createSuccessResult(name);
+            return name;
         } catch (Exception e) {
             return "上传失败";
         }
     }
-    /**
-     * 上传图片获取fileUrl
-     * @param instream
-     * @param fileName
-     * @return
-     */
     private String uploadFile2OSS(InputStream instream, String fileName) {
         String ret = "";
         try {
@@ -72,7 +66,6 @@ public class OssUtil {
             objectMetadata.setContentType(getcontentType(fileName.substring(fileName.lastIndexOf("."))));
             objectMetadata.setContentDisposition("inline;filename=" + fileName);
             //上传文件
-
             OSSClient ossClient = new OSSClient(endpoint, accessKeyId, accessKeySecret);
             PutObjectResult putResult = ossClient.putObject(bucketName, filedir + fileName, instream, objectMetadata);
             ret = putResult.getETag();

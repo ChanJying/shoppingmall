@@ -21,7 +21,6 @@ public class GlobalExceptionHandler {
         }else {
             e.printStackTrace();
             return Result.error(CodeMsg.SERVER_ERROR);
-
         }
     }
 }

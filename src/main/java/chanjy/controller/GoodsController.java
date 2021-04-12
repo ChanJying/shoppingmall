@@ -68,6 +68,8 @@ public class GoodsController {
         return "/customer/goodsList";
     }
 
+
+
     @RequestMapping("/admin/goodsList")
     public String getGoodsList(Model model,@RequestParam(value = "pageNum") int pageNum,HttpServletRequest request){
         AdminRole adminRole = (AdminRole)request.getSession().getAttribute("admin");

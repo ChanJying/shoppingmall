@@ -34,13 +34,8 @@ public class CartController {
     private CartService cartService;
 
     @Autowired
-    private OrderService orderService;
-
-    @Autowired
-    private GoodsService goodsService;
-
-    @Autowired
     private CustomerService customerService;
+
 
 
     @RequestMapping("/doBuy")
@@ -48,17 +43,7 @@ public class CartController {
     public Result<Boolean> doBuy(@RequestBody Map<Integer,Integer> orderMap, Customer customer)  {
         Address address = customerService.queryAddressByCustomerId(customer.getId());
         if(address==null) throw  new GlobalException(CodeMsg.ADDRESS_NOT_EXIST);
-        Order order = new Order();
-        order.setCustomerId(customer.getId());
-        order.setOrderId(Salt.getOrderId());
-        order.setOrderDate(new Date());
-        for (Map.Entry<Integer, Integer> entry : orderMap.entrySet()) {
-           order.setGoodsId(entry.getKey());
-           order.setGoodsNums(entry.getValue());
-           order.setOrderState(0);
-           orderService.addOrder(order);
-           goodsService.updateGoodsNums(entry.getKey(),entry.getValue());
-        }
+        int i = cartService.doBuy(orderMap, customer.getId());
         return Result.success(true);
     }
 

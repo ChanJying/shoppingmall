@@ -35,6 +35,7 @@
         where id = #{id}  ;
     </select>
 
+
     <select id="queryBySearch" parameterType="String" resultType="GoodsVo">
         select id,goods_name,goods_price,goods_content,goods_img,goods_nums
         from goods
