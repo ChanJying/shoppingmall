@@ -1,9 +1,11 @@
 package chanjy.service.impl;
 
+import chanjy.exception.GlobalException;
 import chanjy.mapper.CartMapper;
 import chanjy.pojo.Cart;
 import chanjy.pojo.Customer;
 import chanjy.pojo.Order;
+import chanjy.result.CodeMsg;
 import chanjy.service.CartService;
 import chanjy.service.GoodsService;
 import chanjy.service.OrderService;
@@ -70,8 +72,9 @@ public class CartServiceImpl implements CartService {
             order.setGoodsId(entry.getKey());
             order.setGoodsNums(entry.getValue());
             order.setOrderState(0);
-            orderService.addOrder(order);
-            goodsService.updateGoodsNums(entry.getKey(),entry.getValue());
+            int a =orderService.addOrder(order);
+            int b =goodsService.updateGoodsNums(entry.getKey(),entry.getValue());
+            if(!(a ==1 &&b ==1)) throw new GlobalException(CodeMsg.BUY_ERROR);
         }
         return 1;
     }

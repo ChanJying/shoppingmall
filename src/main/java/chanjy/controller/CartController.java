@@ -13,8 +13,10 @@ import chanjy.service.GoodsService;
 import chanjy.service.OrderService;
 import chanjy.util.Salt;
 import chanjy.vo.CartVo;
+import com.sun.org.apache.xpath.internal.operations.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,6 +38,12 @@ public class CartController {
     @Autowired
     private CustomerService customerService;
 
+    @Autowired
+    private GoodsService goodsService;
+
+    @Autowired
+    private OrderService orderService;
+
 
 
     @RequestMapping("/doBuy")
@@ -43,9 +51,12 @@ public class CartController {
     public Result<Boolean> doBuy(@RequestBody Map<Integer,Integer> orderMap, Customer customer)  {
         Address address = customerService.queryAddressByCustomerId(customer.getId());
         if(address==null) throw  new GlobalException(CodeMsg.ADDRESS_NOT_EXIST);
-        int i = cartService.doBuy(orderMap, customer.getId());
+        cartService.doBuy(orderMap, customer.getId());
         return Result.success(true);
     }
+
+
+
 
     @RequestMapping("/doDelete")
     @ResponseBody

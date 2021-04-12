@@ -4,6 +4,7 @@ public enum CodeMsg {
     //通用异常
     SUCCESS(0,"success"),
     SERVER_ERROR(500100,"服务端异常"),
+    BUY_ERROR(500101,"购买失败"),
 
     //登录模块
     ACCOUNT_EXIST(500210,"用户已存在"),
