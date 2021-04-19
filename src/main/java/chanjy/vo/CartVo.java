@@ -9,6 +9,8 @@ public class CartVo {
     private String goodsImg;
     private String goodsContent;
     private String goodsPrice;
+    private String goodsName;
+
 
     @Override
     public String toString() {
@@ -20,6 +22,7 @@ public class CartVo {
                 ", goodsImg='" + goodsImg + '\'' +
                 ", goodsContent='" + goodsContent + '\'' +
                 ", goodsPrice='" + goodsPrice + '\'' +
+                ", goodsName='" + goodsName + '\'' +
                 '}';
     }
 
@@ -82,7 +85,7 @@ public class CartVo {
     public CartVo() {
     }
 
-    public CartVo(int cartId, int customerId, int goodsId, int goodsNums, String goodsImg, String goodsContent, String goodsPrice) {
+    public CartVo(int cartId, int customerId, int goodsId, int goodsNums, String goodsImg, String goodsContent, String goodsPrice, String goodsName) {
         this.cartId = cartId;
         this.customerId = customerId;
         this.goodsId = goodsId;
@@ -90,5 +93,14 @@ public class CartVo {
         this.goodsImg = goodsImg;
         this.goodsContent = goodsContent;
         this.goodsPrice = goodsPrice;
+        this.goodsName = goodsName;
+    }
+
+    public String getGoodsName() {
+        return goodsName;
+    }
+
+    public void setGoodsName(String goodsName) {
+        this.goodsName = goodsName;
     }
 }

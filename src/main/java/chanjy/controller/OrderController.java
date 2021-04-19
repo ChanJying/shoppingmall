@@ -1,6 +1,7 @@
 package chanjy.controller;
 
 
+
 import chanjy.pojo.Address;
 import chanjy.pojo.AdminRole;
 import chanjy.pojo.Customer;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Iterator;
 import java.util.List;
 
 
@@ -31,6 +31,7 @@ public class OrderController {
 
     @Autowired
     private CustomerService customerService;
+
 
     @RequestMapping("/orderDetail/{orderId}")
     public String toOrderDetail(Model model, @PathVariable("orderId") String orderId, Customer customer){
@@ -73,6 +74,8 @@ public class OrderController {
         model.addAttribute("orderState",orderState);
         return "orderState";
     }
+
+
 
     @RequestMapping("/admin/orderDetail")
     public String getOrderDetail(Model model,@RequestParam(value = "orderId")String orderId,

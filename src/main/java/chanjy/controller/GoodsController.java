@@ -64,7 +64,8 @@ public class GoodsController {
     public String queryBySearch(Model model,Customer customer,@PathVariable("searchName")String searchName){
         model.addAttribute("customer",customer);
         List<GoodsVo> goodsList = goodsService.queryBySearch(searchName);
-        model.addAttribute("goodsList",goodsList);
+        if(goodsList ==null) model.addAttribute("msg","无相关商品");
+        else model.addAttribute("goodsList",goodsList);
         return "/customer/goodsList";
     }
 

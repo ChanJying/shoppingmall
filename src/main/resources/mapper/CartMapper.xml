@@ -7,7 +7,7 @@
 <mapper namespace="chanjy.mapper.CartMapper">
 
     <select id="queryCartByCustomerId" parameterType="int" resultType="CartVo">
-        select  c.cart_id,c.customer_id,c.goods_id,c.goods_nums,g.goods_img,g.goods_content,g.goods_price
+        select  c.cart_id,c.customer_id,c.goods_id,c.goods_nums,g.goods_img,g.goods_content,g.goods_price,g.goods_name
         from cart c join goods g
         on c.goods_id = g.id
         where c.customer_id = #{customerId}

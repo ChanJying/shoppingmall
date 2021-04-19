@@ -39,7 +39,7 @@
                 <div class="ztxx fr">
                     <input class="collectId" type="hidden" th:value="${collectVo.id}">
                     <ul >
-                        <li th:text="${collectVo.goodsName}"></li>
+                        <li  th:text="${collectVo.goodsName}"></li>
                         <li  th:text="${collectVo.goodsPrice}+'元'"></li>
                         <li  ><span th:onclick="|isCollect('${collectVoStat.index}')|"><a>取消收藏</a></span></li>
                         <li><a target="_blank" th:href="@{'/goods/detail/'+${collectVo.goodsId}}">商品详情></a></li>

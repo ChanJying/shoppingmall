@@ -43,13 +43,13 @@
             <input class="goodsId" id="goodsId" th:value="${cartVo.goodsId}" type="hidden">
 
             <div class="sub_content fl"><img style="width: 80px;height: 80px" th:src="@{${cartVo.goodsImg}}"></div>
-            <div class="sub_content fl ft20" th:text="${cartVo.goodsContent}"></div>
+            <div class="sub_content fl ft20" th:text="${cartVo.goodsName}"></div>
             <div class="goodsPrice sub_content fl " th:text="${cartVo.goodsPrice}"></div>
             <div class="sub_content fl">
                 <input class="changeNums shuliang" type="number" id="changeNums" th:onchange="|changeNums('${cartVoStat.index}','${cartVos.size()}')|" th:value="${cartVo.goodsNums}" step="1" min="1" >
             </div>
             <div class=" sub_content fl "   ><span class="price" th:text="${cartVo.goodsPrice}*${cartVo.goodsNums}"></span></div>
-            <div class="sub_content fl" style="cursor:pointer;"><a onclick="deleteCart()">×</a></div>
+            <div class="sub_content fl" style="cursor:pointer;"><a th:onclick="|deleteCart('${cartVoStat.index}')|">×</a></div>
 
         </div>
         <div class="clear"></div>
@@ -88,10 +88,12 @@
 
 <script>
 
-    function deleteCart(){
+    function deleteCart(index){
         g_showLoading();
+        var cartId =  $(".cartId").eq(index).val();
+        console.log(cartId);
         $.ajax({
-            url:"/cart/deleteCollectId/"+$("#cartId").val(),
+            url:"/cart/deleteCart/"+cartId,
             success:function (data) {
                 layer.closeAll();
                 if(data.code==0){

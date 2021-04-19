@@ -38,8 +38,6 @@ public class LoginController {
     @Autowired
     private GoodsService goodsService;
 
-    @Autowired
-    private RedisService redisService;
 
     @Autowired
     ThymeleafViewResolver thymeleafViewResolver;
@@ -54,8 +52,32 @@ public class LoginController {
         return "/customer/pay";
     }
 
+//    @RequestMapping(value = {"/index","/"},produces = "text/html")
+//    @ResponseBody
+//    public String index(HttpServletRequest request,HttpServletResponse response,Model model,Customer customer){
+//        model.addAttribute("customer",customer);
+//        List<GoodsVo> goodsList = goodsService.queryGoodsByLimit();
+//        model.addAttribute("goodsList",goodsList);
+//        List<Type> typeList = goodsService.queryType();
+//        model.addAttribute("typeList",typeList);
+//
+//        String html =redisService.get(IndexPrefix.getIndex,"",String.class);
+//        if(!StringUtils.isEmpty(html)){
+//            return html;
+//        }
+//        WebContext ctx =new WebContext(request,response,
+//                request.getServletContext(),request.getLocale(),model.asMap());
+//
+//        //手动渲染
+//        html=thymeleafViewResolver.getTemplateEngine().process("cusindex",ctx);
+//        if(!StringUtils.isEmpty(html)){
+//            redisService.set(IndexPrefix.getIndex,"",html);
+//        }
+//
+//        return html;
+//    }
+
     @RequestMapping(value = {"/index","/"},produces = "text/html")
-    @ResponseBody
     public String index(HttpServletRequest request,HttpServletResponse response,Model model,Customer customer){
         model.addAttribute("customer",customer);
         List<GoodsVo> goodsList = goodsService.queryGoodsByLimit();
@@ -63,21 +85,9 @@ public class LoginController {
         List<Type> typeList = goodsService.queryType();
         model.addAttribute("typeList",typeList);
 
-        String html =redisService.get(IndexPrefix.getIndex,"",String.class);
-        if(!StringUtils.isEmpty(html)){
-            return html;
-        }
-        WebContext ctx =new WebContext(request,response,
-                request.getServletContext(),request.getLocale(),model.asMap());
-
-        //手动渲染
-        html=thymeleafViewResolver.getTemplateEngine().process("cusindex",ctx);
-        if(!StringUtils.isEmpty(html)){
-            redisService.set(IndexPrefix.getIndex,"",html);
-        }
-
-        return html;
+        return "cusindex";
     }
+
 
     @RequestMapping("/register")
     public String register(){

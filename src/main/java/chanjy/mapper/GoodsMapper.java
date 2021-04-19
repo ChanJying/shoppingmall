@@ -40,4 +40,6 @@ public interface GoodsMapper {
     int deleteGoodsType(int id);
 
     int insertGoodsType(String typeName);
+
+    int incrClick(int goodsId);
 }

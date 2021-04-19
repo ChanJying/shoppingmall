@@ -32,13 +32,13 @@
 
 <!--搜索框-->
 <div class="banner_x center" th:fragment="search">
-    <a th:href="@{/index}" target="_blank"><div class="logo fl"></div></a>
+    <a th:href="@{/index}" ><div class="logo fl"></div></a>
     <a href=""><div class="ad_top fl"></div></a>
 
     <div class="search fr">
         <form action="" method="post">
             <div class="text fl">
-                <input type="text" class="shuru" id="search" placeholder="关键字查询">
+                <input type="text" class="shuru" id="search" placeholder="关键字查询" />
             </div>
             <div class="submit fl">
                 <input type="button" class="sousuo" onclick="searchName()" value="搜索"/>

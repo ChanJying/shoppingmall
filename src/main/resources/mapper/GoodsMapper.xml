@@ -56,8 +56,9 @@
         select g.id,g.goods_name,g.goods_price,g.goods_content,g.goods_img,g.goods_nums,g.sale,t.type_name
         from goods g join `type` t
         on g.type_id = t.id
-        where g.id = #{goodsId} and g.sale = 1 and g.goods_nums != 0
+        where g.id = #{goodsId} 
     </select>
+
 
 
     <update id="updateGoods" parameterType="Goods" >
@@ -84,6 +85,10 @@
     <insert id="insertGoodsType" parameterType="String">
         insert into `type`(type_name) values(#{typeName})
     </insert>
+
+    <update id="incrClick" parameterType="int">
+        update goods set click = click+1 where id = #{goods_id}
+    </update>
 
 
 

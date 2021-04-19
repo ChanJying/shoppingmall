@@ -35,6 +35,7 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     public GoodsVo queryGoodsById(int id){
+        goodsMapper.incrClick(id);
         return goodsMapper.queryGoodsById(id);
     }
 
